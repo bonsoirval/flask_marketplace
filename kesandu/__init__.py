@@ -10,7 +10,8 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from config import Config
-from flask_mysqldb import MySQL
+from flask_authorize import Authorize
+
 
 
 db = SQLAlchemy()
@@ -21,20 +22,14 @@ login.login_message = _l('Please log in to access this page.')
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
-babel = Babel()# Config MySQL
-mysql = MySQL()
+babel = Babel()
+authorize = Authorize()
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    # mysql configurations
-    app.config['MYSQL_HOST'] = '127.0.0.1'
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = ''
-    app.config['MYSQL_DB'] = 'menshut'
-    app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-
+    
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
@@ -42,7 +37,7 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
-    mysql.init_app(app)
+    authorize.init_app(app)
 
     # from kesandu.errors import bp as errors_bp
     # app.register_blueprint(errors_bp)
@@ -92,4 +87,4 @@ def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
 
-from kesandu.frontend import models
+from kesandu import models
