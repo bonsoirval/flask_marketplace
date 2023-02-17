@@ -9,22 +9,40 @@ from kesandu import db, login
 from flask_authorize import RestrictionsMixin, AllowancesMixin
 
 
+# for flask_authorize use
+UserGroup = db.Table(
+    'user_group', db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
+)
+
+UserRole = db.Table(
+    'user_role', db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
+)
+
 
 class User(UserMixin, db.Model):
     __tablename__='users'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    username = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False, default='bonsoirval@gmail.com')
+    username = db.Column(db.String(50), nullable=False, default='bonsoirval@gmail.com')
     password_hash = db.Column(db.String(128), nullable=False)
-    mobile = db.Column(db.String(14), nullable=False)
+    mobile = db.Column(db.String(14), nullable=False, default='1234567890123')
     reg_time = db.Column(db.DateTime, default=datetime.utcnow)
     online = db.Column(db.String(1), nullable=False,default='0')
     activation = db.Column(db.String(3), nullable=False, default='no')
+    
+    # `roles` and `groups` are reserved words that *must* be defined
+    # on the `User` model to use group- or role-based authorization.
+    roles = db.relationship('Role', secondary=UserRole)
+    groups = db.relationship('Group', secondary=UserGroup)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
-
+    
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -122,31 +140,18 @@ class ProductView(db.Model):
     
 # Authorize RBAC tables
 #mapping tables
-UserGroup = db.Table(
-    'user_group', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
-)
-
-UserRole = db.Table(
-    'user_role', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
-)
-
-
 # models
-class User(db.Model):
-    __tablename__ = 'users'
-    __table_args__ = {'extend_existing': True} 
+# class User(db.Model):
+#     __tablename__ = 'users'
+#     __table_args__ = {'extend_existing': True} 
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False, unique=True)
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(255), nullable=False, unique=True)
 
-    # `roles` and `groups` are reserved words that *must* be defined
-    # on the `User` model to use group- or role-based authorization.
-    roles = db.relationship('Role', secondary=UserRole)
-    groups = db.relationship('Group', secondary=UserGroup)
+#     # `roles` and `groups` are reserved words that *must* be defined
+#     # on the `User` model to use group- or role-based authorization.
+#     roles = db.relationship('Role', secondary=UserRole)
+#     groups = db.relationship('Group', secondary=UserGroup)
 
 
 class Group(db.Model, RestrictionsMixin):

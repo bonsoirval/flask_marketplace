@@ -11,10 +11,10 @@ with open(activate_this) as file_:
 sys.path.insert(0, '/var/www/kesandu/')
 
 from kesandu import create_app, db #, cli
-from kesandu.models import User #, Post
+from kesandu.frontend.models import User #, Post
 
 application = create_app()
-# cli.register(application )
+cli.register(application )
 
 @application.shell_context_processor
 def make_shell_context():

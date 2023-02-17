@@ -1,0 +1,69 @@
+2023-01-09 11:25:01,492 INFO: Microblog startup [in C:\Users\bonsoirval\Documents\projects\microblog\app\__init__.py:74]
+2023-01-09 11:31:44,819 INFO: Microblog startup [in C:\Users\bonsoirval\Documents\projects\microblog\app\__init__.py:74]
+2023-01-09 11:32:18,730 ERROR: Exception on /auth/register [POST] [in c:\python38\lib\site-packages\flask\app.py:1454]
+Traceback (most recent call last):
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\base.py", line 1770, in _execute_context
+    self.dialect.do_execute(
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\default.py", line 717, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: user
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\python38\lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\python38\lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\python38\lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\python38\lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\bonsoirval\Documents\projects\microblog\app\auth\routes.py", line 42, in register
+    if form.validate_on_submit():
+  File "c:\python38\lib\site-packages\flask_wtf\form.py", line 100, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "c:\python38\lib\site-packages\wtforms\form.py", line 318, in validate
+    return super(Form, self).validate(extra)
+  File "c:\python38\lib\site-packages\wtforms\form.py", line 150, in validate
+    if not field.validate(self, extra):
+  File "c:\python38\lib\site-packages\wtforms\fields\core.py", line 226, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "c:\python38\lib\site-packages\wtforms\fields\core.py", line 246, in _run_validation_chain
+    validator(form, self)
+  File "C:\Users\bonsoirval\Documents\projects\microblog\app\auth\forms.py", line 25, in validate_username
+    user = User.query.filter_by(username=username.data).first()
+  File "c:\python38\lib\site-packages\sqlalchemy\orm\query.py", line 2760, in first
+    return self.limit(1)._iter().first()
+  File "c:\python38\lib\site-packages\sqlalchemy\orm\query.py", line 2844, in _iter
+    result = self.session.execute(
+  File "c:\python38\lib\site-packages\sqlalchemy\orm\session.py", line 1689, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\base.py", line 1582, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "c:\python38\lib\site-packages\sqlalchemy\sql\elements.py", line 323, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\base.py", line 1451, in _execute_clauseelement
+    ret = self._execute_context(
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\base.py", line 1813, in _execute_context
+    self._handle_dbapi_exception(
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\base.py", line 1994, in _handle_dbapi_exception
+    util.raise_(
+  File "c:\python38\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\base.py", line 1770, in _execute_context
+    self.dialect.do_execute(
+  File "c:\python38\lib\site-packages\sqlalchemy\engine\default.py", line 717, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: user
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.about_me AS user_about_me, user.last_seen AS user_last_seen 
+FROM user 
+WHERE user.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('bonsoirval@gmail.com', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/14/e3q8)
+2023-01-09 11:32:45,136 INFO: Microblog startup [in C:\Users\bonsoirval\Documents\projects\microblog\app\__init__.py:74]
+2023-01-09 11:33:02,636 INFO: Microblog startup [in C:\Users\bonsoirval\Documents\projects\microblog\app\__init__.py:74]
+2023-01-09 11:33:16,241 INFO: Microblog startup [in C:\Users\bonsoirval\Documents\projects\microblog\app\__init__.py:74]
+2023-01-13 16:03:25,915 INFO: Microblog startup [in C:\Users\bonsoirval\documents\projects\microblog\app\__init__.py:74]
+2023-01-13 16:06:43,151 INFO: Microblog startup [in C:\Users\bonsoirval\documents\projects\microblog\app\__init__.py:74]
