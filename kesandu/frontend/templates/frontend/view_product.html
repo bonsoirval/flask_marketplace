@@ -1,0 +1,80 @@
+{% extends 'frontend/layout.html' %}
+{% block body %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 my-4">
+            <div class="list-group">
+                <a href="{{url_for('frontend.fe_category', category='agro')}}" class="list-group-item">Agro Produce</a>
+                <a href="{{url_for('frontend.fe_category', category='organic_skin_care')}}" class="list-group-item">Organic Skin Care</a>
+                <a href="{{url_for('frontend.fe_category', category='organic_hair_care')}}" class="list-group-item">Organic Hair Care</a>
+                <a href="{{url_for('frontend.fe_category', category='Seedling')}}" class="list-group-item">Seedling</a>
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            <div class="row">
+                {% for product in products %}
+                <div class="col-lg-6">
+                    <div class="card mt-4">
+                        <img class="card-img-top img-fluid"
+                             src="../../frontend/static/frontend/image/product/{{product.category}}/{{product.picture}}" alt="">
+                    </div>
+                </div>
+                <!-- /.card -->
+                <div class="col-lg-6">
+                    <div class="card card-outline-secondary my-4">
+                        <div class="card-header">
+                            Product Details
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ product.pName}}</h3>
+                            <h4>N{{ product.price}}</h4>
+                            <p class="card-text">{{ product.description}}</p>
+                            <input name='user_id' style="display:none" value="{{current_user.id}}">
+                            <input name="product_id" style="display:none" value="{{product.id}}">
+                            <input name="seller_id" type=hidden style="display:none" value="{{product.seller_id}}" >
+                            
+                            <p id='quantity'>Quantity</a><br/>
+                            <input type="number" placeholder="What Quantity :" min=1 name='quantity'><br/><br/>
+                            <button id='add_to_cart'> Add To Cart</button>
+                            <textarea id='cart'></textarea>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- /.card -->
+
+            </div>
+            {% if x == '' %}
+            <h2 class="mb-4">No similar product found <br/> Calculated by : content_based_filtering method</h2>
+            {% else%}
+            <h2 class="mb-4">Similar product for you:</h2>
+            <div class="row">
+                {% for product in x[0] %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="card mb-4">
+                        <a href="/{{product.category}}?view={{product.id}}">
+                            <div class="card-img-top id_{{product.id}}"
+                                 style="background: url('static/image/product/{{product.category}}/{{product.picture}}'); background-repeat:no-repeat; background-size: cover; height:200px;width:100% "></div>
+                        </a>
+                        <div class="card-body">
+                            <h5><a class="card-title" href="/{{product.category}}?view={{product.id}}">{{ product.pName}}</a></h5>
+                            <h4>৳{{product.price}}</h4>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <!-- /.col-lg-9 -->
+
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+{% endblock %}

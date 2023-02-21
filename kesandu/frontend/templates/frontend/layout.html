@@ -1,8 +1,18 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Mens Hut</title>
+        <title>{% if title %}{{title}}{% else %}Kesandu Organic Shop{% endif %}</title>
+
         <meta charset="utf-8">
+        {% if description %}
+        <meta name="description" content="{{description}}">
+        {% endif %}
+        {% if  keywords %}
+        <meta name="keywords" content="{{keywords}}">
+        {% endif %}
+        <meta name="author" content="Njoku Okechukuw Valentine">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
         <link rel="icon" href="{{ url_for('static', filename='image/other/logo_icon.png') }}" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel='stylesheet' href="{{url_for('frontend.static', filename='frontend/css/bootstrap.min.css')}}">
@@ -24,4 +34,41 @@
         <script src="{{url_for('frontend.static', filename='frontend/js/bootstrap.min4_1_2.js')}}"></script>
     </body>
     {% include 'frontend/includes/_footer.html' %}
+    <script>
+        $SCRIPT_ROOT = {{ request.script_root|tojson }};
+        
+        $(function() {
+            $('button#add_to_cart').bind('click', function() {
+                $.getJSON($SCRIPT_ROOT + {{url_for('frontend.fe_cart')}},{
+
+                    seller_id: $('input[name="seller_id"]').val(),
+                    quantity: $('input[name="quantity"]').val(),
+                    product_id: $('input[name="product_id"]').val(),
+                    user_id: $('input[name="user_id"]').val()
+                },function(data){
+                    $('#cart').text(data.result)
+                    // $("#quantity").text(data.result)
+                });
+                return false
+            });
+             
+        });
+
+        $(function() {
+          $('a#calculate').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/ajax', {
+              a: $('input[name="a"]').val(),
+              b: $('input[name="b"]').val()
+            }, function(data) {
+              $("#result").text(data.result);
+            });
+            return false;
+          });
+        });
+      </script>
+      <h1>jQuery Example</h1>
+      <p><input type=text size=5 name=a> +
+         <input type=text size=5 name=b> =
+         <span id=result>?</span>
+      <p><a href=# id=calculate>calculate server side</a>
 </html>
