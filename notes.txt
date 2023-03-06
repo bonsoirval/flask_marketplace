@@ -1,0 +1,5 @@
+INDEX PAGE POPULATION
+To populate the index page, first all the different categories are selected
+then, four (4) items are selected from each category and 
+displayed on the index page limit the number of items set
+for the index page at random.

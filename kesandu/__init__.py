@@ -1,6 +1,7 @@
 import logging
-from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
+from jinja2 import StrictUndefined
+from logging.handlers import SMTPHandler, RotatingFileHandler
 from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -29,6 +30,8 @@ authorize = Authorize()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    # app.jinja_env.undefined = StrictUndefined
+    
     
     db.init_app(app)
     migrate.init_app(app, db)
@@ -41,12 +44,17 @@ def create_app(config_class=Config):
 
     # from kesandu.errors import bp as errors_bp
     # app.register_blueprint(errors_bp)
-
-    from kesandu.auth import bp as auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-
+    
+    # frontend
     from kesandu.frontend import bp as frontend_bp
     app.register_blueprint(frontend_bp)
+    
+    from kesandu.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    
+    # sellers
+    from kesandu.sellers import bp as sellers_bp
+    app.register_blueprint(sellers_bp, url_prefi='/sellers')
 
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:

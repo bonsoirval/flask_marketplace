@@ -22,12 +22,12 @@ class Config(object):
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+        'sqlite:///' + os.path.join(basedir, 'kesandu_db.db')
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':''@localhost/'+ DB_NAME 
     # mysql://username:password@host:port/database_name
     
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':''@localhost/'+ DB_NAME
-    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@localhost:3306/'+ DB_NAME
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':''@localhost/'+ DB_NAME
+    # # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@localhost:3306/'+ DB_NAME
     
         
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -42,3 +42,4 @@ class Config(object):
     POSTS_PER_PAGE = 25
     APP_NAME = 'Kesandu'
     EXPLAIN_TEMPLATE_LOADING = True
+    
