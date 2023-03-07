@@ -25,8 +25,9 @@ UserRole = db.Table(
 )
 
 
-class User(UserMixin, db.Model):
-    __tablename__='users'
+class User(db.Model, UserMixin):
+    # __tablename__='users'
+    __abstract__=True
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, default='bonsoirval@gmail.com')
@@ -71,7 +72,8 @@ def load_user(id):
 
 
 class Seller(db.Model, UserMixin):
-    __tablename__ = 'sellers'
+    # __tablename__ = 'sellers'
+    __abstract__ = True
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     firstName = db.Column(db.String(125), nullable=False)
     lastName = db.Column(db.String(125), nullable=False) 
@@ -539,4 +541,150 @@ class CategoryDescription(db.Model):
     meta_keyword = Column(VARCHAR(255), nullable = False)
 
     
-      
+
+class Customer(db.Model):
+    __tablename__='customers'
+    
+    id  = Column(INTEGER(11), ForeignKey('User.id'), primary_key=True, nullable=False)
+    customer_group_id = Column(INTEGER(11), nullable=False)
+    store_id = Column(INTEGER(11), nullable=False, default = 0)
+    language_id  = Column(INTEGER(11), nullable=False)
+    firstname  = Column(VARCHAR(32), nullable = False)
+    lastname  = Column(VARCHAR(32), nullable = False)
+    email  = Column(VARCHAR(96), nullable = False)
+    telephone  = Column(VARCHAR(32), nullable = False)
+    fax  = Column(VARCHAR(32), nullable = False)
+    password  = Column(VARCHAR(40), nullable = False)
+    salt  = Column(VARCHAR(9), nullable = False)
+    cart  = Column(TEXT)
+    wishlist  = Column(TEXT)
+    newsletter  = Column(INTEGER(1), nullable = False, default = 0)
+    address_id  = Column(INTEGER(11), nullable = False, default = 0)
+    custom_field  = Column(TEXT, nullable=False)
+    ip  = Column(VARCHAR(40), nullable = False)
+    status  = Column(INTEGER(1), nullable = False)
+    safe  = Column(INTEGER(1), nullable = False)
+    token  = Column(TEXT, nullable= False)
+    code  = Column(VARCHAR(40), nullable = False)
+    date_added = Column(db.DateTime, nullable=False)
+    
+    def hello_customer():
+        return "How u customer?"
+   
+
+# class CustomerActivity(db.Model):
+#     id = Column(INTEGER(11), primary_key=True, nullable=False)
+#     customer_id = Column(INTEGER(11), nullable=False)
+#     key = Column(VARCHAR(64), nullable=False)
+#     data = Column(TEXT, nullable= False)
+#     ip = Column(VARCHAR(40), nullable=False)
+#     date_added = Column(db.DateTime, nullable=False)
+
+
+# class CustomerAffiliate(db.Model):
+#     id = Column(INTEGER(11), primary_key=True, nullable=False)
+#     company = Column(VARCHAR(40), nullable=False)
+#     website = Column(VARCHAR(255), nullable= False)
+#     tracking = Column(VARCHAR(64), nullable= False)
+#     commission = Column(DECIMAL(4,2), nullable = False, default = 0.0)
+#     tax = Column(VARCHAR(64), nullable= False)
+#     payment = Column(VARCHAR(6), nullable= False)
+#     cheque = Column(VARCHAR(100), nullable= False)
+#     paypal = Column(VARCHAR(64), nullable= False)
+#     bank_name = Column(VARCHAR(64), nullable= False)
+#     bank_branch_number = Column(VARCHAR(64), nullable= False)
+#     bank_swift_code = Column(VARCHAR(64), nullable= False)
+#     bank_account_name = Column(VARCHAR(64), nullable= False)
+#     bank_account_number = Column(VARCHAR(64), nullable= False)
+#     custom_field  = Column(TEXT, nullable = False)
+#     status = Column(INTEGER(1), nullable= False)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerApproval(db.Model):
+#     id  = Column(INTEGER(11),nullable = False, primary_key=True)
+#     customer_id  = Column(INTEGER(11), nullable= False)
+#     type = Column(VARCHAR(9), nullable= False)
+#     date_added  = Column(db.DateTime, nullable = False, default = datetime.utcnow)
+
+
+# class CustomerGroup(db.Model):
+#     id  = Column(INTEGER(11), nullable=False, primary_key=True)
+#     approval  = Column(INTEGER(1), nullable= False)
+#     sort_order  = Column(INTEGER(3), nullable= False)
+
+
+# class CustomerGroupDescription(db.Model):
+#     id  = Column(INTEGER(11), primary_key=True, nullable= False)
+#     language_id  = Column(INTEGER(11), nullable= False)
+#     name = Column(VARCHAR(32), nullable= False)
+#     description  = Column(TEXT, nullable = False)
+
+
+# class CustomerHistory(db.Model):
+#     id  = Column(INTEGER(11), primary_key = True, nullable = False)
+#     customer_id  = Column(INTEGER(11), nullable= False)
+#     comment  = Column(TEXT, nullable = False)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerLogin(db.Model):
+#     id = Column(INTEGER(11), nullable = False, primary_key = True)
+#     email = Column(VARCHAR(96), nullable = False)
+#     ip = Column(VARCHAR(40), nullable = False)
+#     total = Column(INTEGER(4), nullable = False)
+#     date_added = Column(db.DateTime, nullable = False)
+#     date_modified = Column(db.DateTime, nullable = False)
+
+
+# class CustomerIp(db.Model):
+#     id  = Column(INTEGER(11), nullable = False, primary_key = True)
+#     customer_id  = Column(INTEGER(11), nullable= False)
+#     ip = Column(VARCHAR(40), nullable= False)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerOnline(db.Model):
+#     ip = Column(VARCHAR(40),primary_key=True, nullable= False)
+#     customer_id  = Column(INTEGER(11), nullable= False)
+#     url  = Column(TEXT, nullable = False)
+#     referer  = Column(TEXT, nullable = False)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerReward(db.Model):
+#     id  = Column(INTEGER(11), nullable = False, primary_key = True)
+#     customer_id  = Column(INTEGER(11), nullable = False, default = 0)
+#     order_id  = Column(INTEGER(11), nullable = False, default = 0)
+#     description  = Column(TEXT, nullable = False)
+#     points  = Column(INTEGER(8), nullable = False, default = 0)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerTransaction(db.Model):
+#     id  = Column(INTEGER(11), nullable = False, primary_key=True)
+#     customer_id  = Column(INTEGER(11), nullable= False)
+#     order_id  = Column(INTEGER(11), nullable= False)
+#     description  = Column(TEXT, nullable = False)
+#     amount = Column(DECIMAL(15,4), nullable= False)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerSearch(db.Model):
+#     id  = Column(INTEGER(11), nullable = False, primary_key =True, unique =True)
+#     store_id  = Column(INTEGER(11), nullable= False)
+#     language_id  = Column(INTEGER(11), nullable= False)
+#     customer_id  = Column(INTEGER(11), nullable= False)
+#     keyword = Column(VARCHAR(255), nullable= False)
+#     category_id  = Column(INTEGER(11), nullable= False)
+#     sub_category = Column(INTEGER(1), nullable= False)
+#     description = Column(INTEGER(1), nullable= False)
+#     products  = Column(INTEGER(11), nullable= False)
+#     ip = Column(VARCHAR(40), nullable= False)
+#     date_added  = Column(db.DateTime, nullable = False)
+
+
+# class CustomerWishlist(db.Model):
+    iid = Column(INTEGER(11), nullable=False, primary_key=True)
+    product_id = Column(INTEGER(11), nullable=False, primary_key=True)
+    date_added = Column(db.DateTime, nullable=False, default=datetime.utcnow)     

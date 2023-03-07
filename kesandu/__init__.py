@@ -49,12 +49,12 @@ def create_app(config_class=Config):
     from kesandu.frontend import bp as frontend_bp
     app.register_blueprint(frontend_bp)
     
-    from kesandu.auth import bp as auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    # from kesandu.auth import bp as auth_bp
+    # app.register_blueprint(auth_bp, url_prefix='/auth')
     
     # sellers
-    from kesandu.sellers import bp as sellers_bp
-    app.register_blueprint(sellers_bp, url_prefi='/sellers')
+    # from kesandu.sellers import bp as sellers_bp
+    # app.register_blueprint(sellers_bp, url_prefi='/sellers')
 
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
