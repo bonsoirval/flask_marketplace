@@ -33,7 +33,7 @@ class AddProductForm(FlaskForm):
     min_quantity = StringField('Minimum Quantity') # , min_entries=1)
     subtract_stock = SelectField('Subtract Stock', choices=[('1', 'Yes'), ('0', 'No')])
     stock_status_id = SelectField('Out Of Stock Status', choices=[('6', '2-3 Days'), ('7', 'In Stock'), ('5', 'Out Of Stock'), ('8','Pre-Order')])
-    # shipping = RadioField('Requires Shipping', choices=[('1', 'Yes'), ('0', 'No')], default=2, coerce=int, validators=[DataRequired()])
+    shipping = RadioField('Requires Shipping', choices=[('1', 'Yes'), ('0', 'No')], default=1, coerce=int, validators=[DataRequired()])
     date_available = DateField('Available Data', format='%Y-%m-%d' )
     length = StringField('Length')
     width = StringField('Width')

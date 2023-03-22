@@ -83,6 +83,7 @@ def s_add_product():
             min_quantity : {form.min_quantity.data} <br/>\
             subtract_stock : {form.subtract_stock.data} <br/> \
             stock_status_id : {form.stock_status_id.data} <br/> \
+            shipping : {form.shipping.data} <br/> \
             date_available : {form.date_available.data} <br/> \
             length : {form.length.data} <br/> \
             width : {form.width.data} <br/> \
