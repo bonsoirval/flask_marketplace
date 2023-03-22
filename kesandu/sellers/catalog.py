@@ -94,11 +94,11 @@ def s_add_product():
             status : {form.status.data} <br/> \
             sort_order : {form.sort_order.data} <br/>\
             manufacturer : {form.manufacturer.data} <br/>  \
-            category : {form.category.data} <br/>" #\
-            # filters : {form.filters.data} <br/>\
-            # stores : {form.stores.data} <br/>\
-            # downloads : {form.downloads.data} <br/>\
-            # related_products : {form.related_prdoucts.data} <br/>\
+            category : {form.category.data} <br/> \
+            filters : {form.filters.data} <br/> \
+            stores : {form.stores.data} <br/> \
+            downloads : {form.downloads.data} <br/> \
+            related : {form.related.data} <br/> "
             # image : {form.images.data} <br/>\
     
     # if form.validate_on_submit():
