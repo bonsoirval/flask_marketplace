@@ -86,8 +86,10 @@ def s_add_product():
             date_available : {form.date_available.data} <br/> \
             length : {form.length.data} <br/> \
             width : {form.width.data} <br/> \
-            height : {form.height.data} <br/>  " #\
+            height : {form.height.data} <br/>  \
             # length_class_id : {form.length_class_id.data} <br/> \
+            weight : {form.weight.data} <br/> \
+            weight_class_id : {form.weight_class_id.data} <br/>"# \
             # status : {form.status.data} <br/>" # \
             # sort_order : {form.sort_order} <br/>" #\
             # manufacturer : {form.manufacturer.data} <br/>\
