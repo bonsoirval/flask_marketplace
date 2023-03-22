@@ -7,11 +7,7 @@
   <div id="header-logo" class="navbar-header"><a href="http://localhost/market/admin/index.php?route=common/dashboard&amp;user_token=IrvKTe0dtqkpXV8XXfZ0ADyP8RIumnu2" class="navbar-brand"><img src="view/image/logo.png" alt="OpenCart" title="OpenCart" /> <i class="fa fa-opencart"></i><span class="hidden">OpenCart</span></a></div>
   
   <a id="button-menu"><span class="fa fa-bars"></span></a>
-  
-  
-  
-
-    <ul class="nav navbar-nav navbar-right">
+  <ul class="nav navbar-nav navbar-right">
     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="http://localhost/market/image/cache/profile-45x45.png" alt="John Doe" title="bonsoirval@gmail.com" id="user-profile" class="img-circle" />John Doe <i class="fa fa-caret-down fa-fw"></i></a>
       <ul class="dropdown-menu dropdown-menu-right">
         <li><a href="http://localhost/market/admin/index.php?route=common/profile&amp;user_token=IrvKTe0dtqkpXV8XXfZ0ADyP8RIumnu2"><i class="fa fa-user-circle-o fa-fw"></i> Your Profile</a></li>
@@ -183,12 +179,12 @@
             <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
             <li><a href="#tab-data" data-toggle="tab">Data</a></li>
             <li><a href="#tab-links" data-toggle="tab">Links</a></li>
+            <li><a href="#tab-image" data-toggle="tab">Image</a></li>
             <li><a href="#tab-attribute" data-toggle="tab">Attribute</a></li>
             <li><a href="#tab-option" data-toggle="tab">Option</a></li>
             <li><a href="#tab-recurring" data-toggle="tab">Recurring</a></li>
             <li><a href="#tab-discount" data-toggle="tab">Discount</a></li>
             <li><a href="#tab-special" data-toggle="tab">Special</a></li>
-            <li><a href="#tab-image" data-toggle="tab">Image</a></li>
             <li><a href="#tab-reward" data-toggle="tab">Reward Points</a></li>
             <li><a href="#tab-seo" data-toggle="tab">SEO</a></li>
             <li><a href="#tab-design" data-toggle="tab">Design</a></li>
@@ -408,26 +404,28 @@
                   {{ data['form'].status(id='input-status', class='form-control')}}
                 </div>
               </div>
-              <!--div class="form-group">
-                <label class="col-sm-2 control-label" for="input-sort-order">{ {data['form'].sort_order.label}}</label>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sort-order">{{data['form'].sort_order.label}}</label>
                 <div class="col-sm-10">
-                  { { data['form'].product_name(placeholder="Sort Order", id="input-sort-order", class="form-control") }}
+                  {{ data['form'].sort_order(placeholder="Sort Order", id="input-sort-order", class="form-control") }}
                 </div>
               </div>
-            </div-->
-            <!--
+            </div>
             <div class="tab-pane" id="tab-links">
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="(Autocomplete)">Manufacturer</span></label>
+                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="(Autocomplete)">{{data['form'].manufacturer.label}}</span></label>
                 <div class="col-sm-10">
-                  <input type="text" name="manufacturer" value="" placeholder="Manufacturer" id="input-manufacturer" class="form-control" />
-                  <input type="hidden" name="manufacturer_id" value="0" />
+                  {{data['form'].manufacturer(placeholder='Manufacturer', id='input-manufacturer', class="form-control")}}
+                  {{data['form'].manufacturer_id(type='hidden', value=0)}}
+                  <!--input type="text" name="manufacturer" value="" placeholder="Manufacturer" id="input-manufacturer" class="form-control" />
+                  <input type="hidden" name="manufacturer_id" value="0" /-->
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="(Autocomplete)">Categories</span></label>
                 <div class="col-sm-10">
-                  <input type="text" name="category" value="" placeholder="Categories" id="input-category" class="form-control" />
+                  {{data['form'].category(placeholder="Categories", id = 'input-category', class='form-control')}}
+                  <!--input type="text" name="category" value="" placeholder="Categories" id="input-category" class="form-control" /-->
                   <div id="product-category" class="well well-sm" style="height: 150px; overflow: auto;"> </div>
                 </div>
               </div>
@@ -466,7 +464,46 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" id="tab-attribute">
+            <div class="tab-pane" id="tab-image">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">Image</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-left">
+                        <a href="" id="thumb-image" data-toggle="image" class="img-thumbnail">
+                          <img src="http://localhost/market/image/cache/no_image-100x100.png" alt="" title="" data-placeholder="http://localhost/market/image/cache/no_image-100x100.png" />
+                        </a>
+                        <input type="hidden" name="image" value="" id="input-image" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-responsive">
+                <table id="images" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">Additional Images</td>
+                      <td class="text-right">Sort Order</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="2"></td>
+                      <td class="text-left"><button type="button" onclick="addImage();" data-toggle="tooltip" title="Add Image" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <!--div class="tab-pane" id="tab-attribute">
               <div class="table-responsive">
                 <table id="attribute" class="table table-striped table-bordered table-hover">
                   <thead>
@@ -573,47 +610,6 @@
                     <tr>
                       <td colspan="5"></td>
                       <td class="text-left"><button type="button" onclick="addSpecial();" data-toggle="tooltip" title="Add Special" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-            <div class="tab-pane" id="tab-image">
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <td class="text-left">Image</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="text-left">
-                        <a href="" id="thumb-image" data-toggle="image" class="img-thumbnail">
-                          <img src="http://localhost/market/image/cache/no_image-100x100.png" alt="" title="" data-placeholder="http://localhost/market/image/cache/no_image-100x100.png" />
-                        </a>
-                        <input type="hidden" name="image" value="" id="input-image" /></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="table-responsive">
-                <table id="images" class="table table-striped table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <td class="text-left">Additional Images</td>
-                      <td class="text-right">Sort Order</td>
-                      <td></td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  
-                                                        </tbody>
-                  
-                  <tfoot>
-                    <tr>
-                      <td colspan="2"></td>
-                      <td class="text-left"><button type="button" onclick="addImage();" data-toggle="tooltip" title="Add Image" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
                     </tr>
                   </tfoot>
                 </table>
