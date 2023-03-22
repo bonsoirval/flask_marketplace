@@ -41,7 +41,7 @@ class AddProductForm(FlaskForm):
     length_class_id = SelectField('Length Class',choices=[('1', 'Centimeters'),('2', 'Milimeters'),('3', 'Inches')]) 
     weight = StringField('Weight')
     weight_class_id = SelectField('Weight Class',choices=[('1', 'Kilograms'), ('2', 'Gram'), ('5', 'Pound'), ('6', 'Ounce')])
-    # status = SelectField('Status',choices=[('1', 'Enabled'), ('2', 'Disabled')])
+    status = SelectField('Status',choices=[('1', 'Enabled'), ('2', 'Disabled')])
     # sort_order = StringField('Sort Order')
     # manufacturer = SelectField('Manufacturer [Ajax filled]')
     # category = SelectField('Category [Ajax filled]')

@@ -90,9 +90,9 @@ def s_add_product():
             height : {form.height.data} <br/>  \
             # length_class_id : {form.length_class_id.data} <br/> \
             weight : {form.weight.data} <br/> \
-            weight_class_id : {form.weight_class_id.data} <br/>"# \
-            # status : {form.status.data} <br/>" # \
-            # sort_order : {form.sort_order} <br/>" #\
+            weight_class_id : {form.weight_class_id.data} <br/>\
+            status : {form.status.data} <br/> "# \
+            # sort_order : {form.sort_order} <br/> " #\
             # manufacturer : {form.manufacturer.data} <br/>\
             # category : {form.category.data} <br/>\
             # filters : {form.filters.data} <br/>\
