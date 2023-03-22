@@ -1,0 +1,110 @@
+{{ header }} {{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>{{ text_list }}</h1>
+             
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+            </div>
+
+            <div class="panel-body">
+        <div class="row">
+          <div class="col-md-5">
+              <div class="form-group">             
+              <label class="control-label" for="input-order-id">{{ entry_withdrawal_id }}</label>
+              <input type="text" name="filter_withdrawal_id" value="{{ filter_withdrawal_id }}" placeholder="{{ entry_withdrawal_id }}" id="input-withdrawal-id" class="form-control" />
+            </div>
+          </div>
+
+          <div class="col-md-5">
+              <div class="form-group">
+                <label class="control-label" for="input-date-added">{{ entry_vendor_name }}</label>
+                
+                  <input type="text" name="filter_vendor_name" value="{{ filter_vendor_name }}" placeholder="{{ entry_vendor_name }}" id="filter_vendor_name" class="form-control" />          </div>
+               
+          </div>
+          <div class="col-md-2">
+              <div class="form-group">
+                <button type="button" id="button-filter" data-toggle="tooltip" title="{{button_filter}}" class="btn btn-default" style="margin-top:21px"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+              </div>
+          </div>
+        </div>
+      </div>
+            <div class="panel-body">
+                <div class="table-responsive" style="overflow-x: hidden">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                  <td class="text-left">{% if sort == 'withdrawal_id' %} <a href="{{ sort_withdrawal }}" class="{{ order|lower }}">{{ entry_withdrawal_id }}</a> {% else %} <a href="{{ sort_withdrawal }}">{{ entry_withdrawal_id }}</a> {% endif %}</td>                                 
+                                <!-- <td class="text-center">{{entry_withdrawal_id}}</td> -->
+                                <td class="text-center">{{entry_vendor_id}}</td>
+                                <td class="text-center">{{entry_vendor_name}}</td>
+                                <td class="text-center">{{entry_amount}}</td>
+                                <td class="text-center">{{column_status}}</td>
+                                <td class="text-center"> {{action}}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for withdrawal_list in withdrawal_data %}                               
+                             
+                           <!--  <tr id="{{withdrawal_list.vendor_id}}" data-withdrwal={{withdrawal_list| json_encode() }}> -->
+                            <tr>
+                                <td class="text-center">{{withdrawal_list.withdrawal_id}} </td>
+                                <td class="text-center" id="vendor_id">{{withdrawal_list.vendor_id}} </td>
+                                <td class="text-center">{{withdrawal_list.vendor_name}} </td>
+                                <td class="text-center">{{withdrawal_list.amount}}</td>
+                                <td class="text-center">{{withdrawal_list.payment_processed}}</td>
+                                {% if withdrawal_list.payment_processed=='Pending' %}
+                                <td class="text-center"><a style="margin-left:-50px; margin-right: -50px;" href="{{ withdrawal_list.pay }}" class="btn btn-primary" data-toggle="tooltip" title="{{text_transection}}">{{transef_money}}</a></td>
+                                {% else %}
+                                <td class="text-center"><a href="{{ withdrawal_list.view }}" class="btn btn-primary" data-toggle="tooltip" title="{{text_view}}"><i class="fa fa-eye"></i></a></td>
+                                {% endif %}
+                            </tr> 
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 text-left">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript"><!--
+    $('#button-filter').on('click', function() {
+      url = '';
+     
+      var filter_withdrawal_id = $('input[name=\'filter_withdrawal_id\']').val();
+
+      if (filter_withdrawal_id) {
+        url += '&filter_withdrawal_id=' + encodeURIComponent(filter_withdrawal_id);
+      }       
+
+      var filter_vendor_name = $('input[name=\'filter_vendor_name\']').val();
+
+      if (filter_vendor_name) {
+        url += '&filter_vendor_name=' + encodeURIComponent(filter_vendor_name);
+      }       
+      location = 'index.php?route=vendor/lts_withdrawalform&user_token={{ user_token }}'+url;
+    });
+
+    //--></script>
+    {{footer}}
+</div>

@@ -1,0 +1,120 @@
+{{ header }} {{ column_left }}
+<div id="content">
+    <div class="page-header">
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <h4>{{entry_vendor_detail}}</h4>
+                        <table class="table table-bordered">
+                        <tr>
+                         <td>{{entry_vendor}}</td>  
+                          <td>{{bank_info.account_holder}}</td>   
+                        </tr> 
+                        <tr>
+                         <td>{{entry_bank}}</td>  
+                          <td id='bank_name'>{{bank_info.bankname}}</td>   
+                        </tr> 
+                        <tr>
+                         <td>{{entry_acc}}</td>  
+                          <td id='bank_acc_no'>{{bank_info.accountno}}</td>   
+                        </tr>    
+                        <tr>
+                         <td>{{entry_ifsc}}</td>  
+                          <td id='bank_ifsc_code'>{{bank_info.ifsc}}</td>   
+                        </tr>
+                        <tr>
+                         <td>{{entry_paypal}}</td>  
+                          <td>{{bank_info.paypal}}</td>   
+                        </tr>
+                        <tr>
+                         <td>{{phone_no}}</td>  
+                          <td>{{telephone}}</td>   
+                        </tr>
+                        </table>
+                        
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div>
+                            <label class="control-label">{{entry_amount}}</label>
+                        </div>
+                        <div>
+                            <input type="hidden" id="withdrawal_id" name="withdrawal_id" value="{{withdrawal_data.withdrawal_id}}">
+                            <input type="hidden" id="vendor_id" name="vendor_id" value="{{withdrawal_data.vendor_id}}">
+                            <input type="hidden" id="vendor_name" name="vendor_name" value="{{withdrawal_data.vendor_name}}">
+                            <input type="text" class="form-control" id="amount" readonly="" name="amount" value={{withdrawal_data.amount}}>
+                        </div>
+                        <div>
+                            <label class="control-label">{{payment_method}}</label>
+                        </div>
+                        <div>
+                           <select name="payment_method" id="payment_method_id" style="height: 35px;margin-top:10px;">
+                               <option value="" default>{{entry_payment_method}}</option>
+                               <option value="{{lts_paypal}}">{{entry_paypal}}</option>
+                               <option value="{{lts_bank_transfer}}">{{entry_bank_transfer}}</option>
+                           </select> 
+                        </div>
+                        <div style="margin-top:10px">
+                            <label class="control-label">{{transaction_id}}</label>
+                        </div>
+                        <div  style="margin-top:10px">
+                            <input type="text" class="form-control" id="transection_id" name="transection" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" id="submit_amount" style="margin-top:20px" class="btn btn-primary">{{submit}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $("#submit_amount").click(function() {
+        var amount = $('#amount').val();
+        var bank_name=$('#bank_name').text();
+        var bank_acc_no=$('#bank_acc_no').text();
+        var bank_ifsc_code=$('#bank_ifsc_code').text();        
+        var transection_id = $('#transection_id').val();
+        var vendor_id = $('#vendor_id').val();
+         var withdrawal_id = $('#withdrawal_id').val();
+        var vendor_name = $('#vendor_name').val();
+        var payment_method=$('#payment_method_id').val();         
+        var user_token = '{{user_token}}';
+
+        if(payment_method=='')
+        {
+             alert("Select Payment Method");
+        }
+        else if (transection_id == '') {
+            alert("Fill transaction");
+        }
+        else 
+        {
+            $.ajax({                
+                url: 'index.php?route=vendor/lts_withdrawalform/submitForm&user_token=' + user_token,
+                data: { 'withdrawal_id':withdrawal_id, 'amount': amount, 'transection_id': transection_id, 'vendor_id': vendor_id, 'vendor_name': vendor_name,'bank_name':bank_name,'bank_acc_no':bank_acc_no,'bank_ifsc_code':bank_ifsc_code,'payment_method':payment_method},
+
+                success: function(result) {
+                    
+                    if(result.status==true)
+                    {
+                        alert("Successfully Transfer Money")
+                    }
+                   window.location.replace('index.php?route=vendor/lts_withdrawalform&user_token=' + user_token);
+                }
+            });
+        }
+    });
+    </script>
+    {{ footer }}
+</div>

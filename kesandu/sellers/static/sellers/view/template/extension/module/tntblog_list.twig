@@ -1,0 +1,281 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+          <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-blogpost').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+            <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+          <button type="submit" form="form-blogpost" formaction="{{ copy }}" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default"><i class="fa fa-copy"></i></button>
+          <button type="button" form="form-blogpost" formaction="{{ delete }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-blogpost').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div id="growls" class="default"></div>
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+        <form action="{{ mainaction }}" method="post" enctype="multipart/form-data" id="form-imageslider" class="form-horizontal">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+        </div>
+        <div class="panel-body">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+              {% if error_name %}
+              <div class="text-danger">{{ error_name }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group"> 
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_main_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+                {% if status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+
+          <ul class="nav nav-tabs" id="language">
+            {% for language in languages %}
+            <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+            {% endfor %}
+          </ul>
+
+          <div class="tab-content">{% for language in languages %}
+              <div class="tab-pane" id="language{{ language.language_id }}">
+                  <div class="form-group text-center">
+                    <label class="col-sm-12 control-label" for="input-block"><center><h1>{{ setting_main_form }}</h1></center></label>
+                  </div>
+                  
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="input-maintitle">{{ setting_main_title }}</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="tntblog_parent[{{ language.language_id }}][title]" value="{{ tntblog_parent[language.language_id] ? tntblog_parent[language.language_id].title }}" placeholder="{{ setting_main_title }}" id="input-maintitle" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="input-mainsubtitle">{{ entry_main_short_des }}</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="tntblog_parent[{{ language.language_id }}][subtitle]" value="{{ tntblog_parent[language.language_id] ? tntblog_parent[language.language_id].subtitle }}" placeholder="{{ entry_main_short_des }}" id="input-mainsubtitle" class="form-control" />
+                      </div>
+                    </div>
+               
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="input-maindes">{{ entry_main_des }}</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="tntblog_parent[{{ language.language_id }}][des]" value="{{ tntblog_parent[language.language_id] ? tntblog_parent[language.language_id].des }}" placeholder="{{ entry_main_des }}" id="input-maindes" class="form-control" />
+                      </div>
+                    </div>
+              </div>
+          {% endfor %}</div>
+          <div class="form-group"> 
+            <div class="col-sm-12">
+              <button type="submit" form="form-imageslider" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+      <div class="row">
+
+        <div id="filter-blogpost" class="col-md-3 col-md-push-9 col-sm-12 hidden-sm hidden-xs">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                  <label class="control-label" for="input-name">{{ entry_main_title }}</label>
+                  <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_main_title }}" id="input-name" class="form-control" />
+                </div>
+              <div class="form-group">
+                <label class="control-label" for="input-status">{{ entry_main_status }}</label>
+                <select name="filter_status" id="input-status" class="form-control">
+                  <option value="">{{ text_select }}</option>
+                  {% if filter_status == '1' %}
+                  <option value="1" selected="selected">{{ text_enabled }}</option>
+                  {% else %}
+                  <option value="1">{{ text_enabled }}</option>
+                  {% endif %}
+                  {% if filter_status == '0' %}
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% else %}
+                    <option value="0">{{ text_disabled }}</option>
+                  {% endif %}                    
+                </select>
+              </div>
+              <div class="form-group text-right">
+                <button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-md-pull-3 col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+            </div>
+            <div class="panel-body">
+              <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-blogpost">
+
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover tvblogpost">
+                    <thead>
+                      <tr>
+                        <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                        
+                          <td class="text-left">{% if sort == 'pd.tntblog_child_title' %} <a href="{{ sort_tntblog_child_title }}" class="{{ order|lower }}">{{ entry_main_title }}</a> {% else %} <a href="{{ sort_tntblog_child_title }}">{{ entry_main_title }}</a> {% endif %}</td>
+                        
+                          <td class="text-left">{% if sort == 'pd.tntblog_child_excerpt' %} <a href="{{ sort_tntblog_child_excerpt }}" class="{{ order|lower }}">{{ entry_main_des }}</a> {% else %} <a href="{{ sort_tntblog_child_excerpt }}">{{ entry_main_des }}</a> {% endif %}</td>
+                       
+                         <td class="text-left">{% if sort == 'p.tntblog_parent_url' %} <a href="{{ sort_tntblog_parent_url }}" class="{{ order|lower }}">{{ entry_main_block_link }}</a> {% else %} <a href="{{ sort_tntblog_parent_url }}">{{ entry_main_block_link }}</a> {% endif %}</td>
+
+                          <td class="text-left">{% if sort == 'pd.sort_tntblog_des_sub' %} <a href="{{ sort_sort_tntblog_des_sub }}" class="{{ order|lower }}">{{ entry_position }}</a> {% else %} <a href="{{ sort_sort_tntblog_des_sub }}">{{ entry_position }}</a> {% endif %}</td>
+                      
+                         <td class="text-left"> {{ entry_main_status }}</td>
+                        <td class="text-left">{{ entry_action }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if blogpostslist %}
+                      {% for blogpost_data in blogpostslist %}
+                        <tr id="recordsArray_{{ blogpost_data.id }}">
+                          <td class="text-center">{% if blogpost_data.id in selected %}
+                            <input type="checkbox" name="selected[]" value="{{ blogpost_data.id }}" checked="checked" />
+                            {% else %}
+                            <input type="checkbox" name="selected[]" value="{{ blogpost_data.id }}" />
+                            {% endif %}</td>
+                         
+                          <td class="text-left">{{ blogpost_data.title }}</td>
+                          <td class="text-left">{{ blogpost_data.excerpt }}</td>
+                          <td class="text-left">{{ blogpost_data.url }}</td>
+                          <td class="text-left">{{ blogpost_data.position }}</td>
+                          <td class="text-left">{{ blogpost_data.status }}</td>
+                          <td class="text-left"><a href="{{ blogpost_data.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                      {% endfor %}
+                      {% else %}
+                    <tr>
+                      <td class="text-center" colspan="10">{{ text_no_results }}</td>
+                    </tr>
+                    {% endif %}
+                      </tbody>                  
+                  </table>
+                  
+                </div>
+              </form>
+              <div class="row">
+                <div class="col-sm-6 text-left">{{ pagination }}</div>
+                <div class="col-sm-6 text-right">{{ results }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.ui.core.min.js
+"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.ui.widget.min.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.ui.mouse.min.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.sortable.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery-ui.js"></script> 
+
+  <script type="text/javascript"><!--
+
+    $(document).ready(function(){
+      
+
+      function removeTags(){
+          setTimeout(function() {
+              $(".tvblogpost-position-update").remove();
+            }, 3000);
+        }
+
+      var urll = 'index.php?route=extension/module/tntblog/ajax&user_token={{ user_token }}&action=update_position&';
+
+      var obj  = $(document).find('body');
+          
+      $(".tvblogpost tbody").sortable({
+        opacity: 0.6,
+        cursor: 'move',
+        update: function() {
+            var order = $(this).sortable("serialize");
+            var qq = urll + '' + order;
+            console.log(qq);
+            $.post(qq, order, function(data) {
+                var arr_data = data.split('##');
+
+                var result = arr_data[0];
+
+                var notic = 'Position is Updated.';
+                if (result == 'right') {
+                    var tags = '';
+
+                    tags += '<div id="growls" class="alert alert-success alert-dismissible default tvblogpost-position-update"><i class="fa fa-check-circle"></i> '+ notic +'<button type="button" class="close" data-dismiss="alert">&times;</button>';
+                    tags += '</div>';
+
+                    obj.find('#growls').html(tags);
+                    removeTags();
+                }
+            });
+        }
+      });
+    });
+
+    $('#button-filter').on('click', function() {
+        var url = '';
+
+        var filter_name = $('input[name=\'filter_name\']').val();
+
+        if (filter_name) {
+            url += '&filter_name=' + encodeURIComponent(filter_name);
+        }
+
+        var filter_status = $('select[name=\'filter_status\']').val();
+
+        if (filter_status !== '') {
+            url += '&filter_status=' + encodeURIComponent(filter_status);
+        }
+
+        location = 'index.php?route=extension/module/tntblog&user_token={{ user_token }}' + url;
+    });
+    
+  $('button[form=\'form-blogpost\']').on('click', function(e) {
+  $('#form-blogpost').attr('action', $(this).attr('formaction'));
+});
+    
+    $('#language a:first').tab('show');
+
+
+
+//--></script></div>
+{{ footer }}

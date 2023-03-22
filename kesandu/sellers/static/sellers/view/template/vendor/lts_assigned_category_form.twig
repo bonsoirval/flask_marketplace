@@ -1,0 +1,154 @@
+{{ header }} {{ column_left }} 
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="assigned-category" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+        </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-money"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal" id="assigned-category">
+         
+            <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-vendorgg"><span data-toggle="tooltip" title="{{ text_autocomplete }}">{{ entry_vendor }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="vendor" value="{{ vendor }}" placeholder="{{ entry_vendor }}" id="input-vendor" class="form-control"/>
+                  <input type="hidden" name="vendor_id" value="{{ vendor_id }}" />
+                  {% if error_vendor %} 
+                    <div class="text-danger">{{ error_vendor }}</div>
+                  {% endif %}
+                </div>
+            </div>
+         
+ 
+        	 <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="{{ text_autocomplete }}">{{ entry_category }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="category" value="" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
+                  <div id="vendor-category" class="well well-sm" style="height: 150px; overflow: auto;">
+                    
+                   {% for vendor_categories in vendor_category %}
+                    <div id="vendor-category{{ vendor_categories.category_id }}"><i class="fa fa-minus-circle"></i> {{ vendor_categories.name }}
+                      <input type="hidden" name="vendor_category[]" value="{{ vendor_categories.category_id }}" />
+                    </div>
+                    {% endfor %}
+                  </div>
+                  {% if error_vendor_category %} 
+    	          	  <div class="text-danger">{{ error_vendor_category }}</div>
+    	           {% endif %}
+                </div>
+             </div>
+        </form>
+      </div>
+    </div>
+</div>
+<script type="text/javascript"><!--
+$("#input-category").click(function(){
+var vendor_name =$('#input-vendor').val();
+
+  $.ajax({
+      url:'index.php?route=vendor/lts_assigned_category/check_vendor_exist&user_token={{ user_token }}',
+      data:{'vendor_name':vendor_name},
+      dataType:'json',
+      success: function(response)
+      {
+        if(response!=false)
+        {
+          window.location.replace('index.php?route=vendor/lts_assigned_category/edit&user_token={{ user_token }}&vendor_id='+response);
+        }
+      }
+  });
+});
+--></script>
+
+<script type="text/javascript"><!--
+// Category
+
+
+$('input[name=\'category\']').autocomplete({
+	'source': function(request, response) { 
+    $.ajax({
+			url: 'index.php?route=vendor/lts_assigned_category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+
+				response($.map(json, function(item) {
+					return {             
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'category\']').val('');
+
+		$('#vendor-category' + item['value']).remove();
+
+		$('#vendor-category').append('<div id="vendor-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="vendor_category[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#vendor-category').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+
+//--></script> 
+
+ <script type="text/javascript"> 
+// vendor
+$('input[name=\'vendor\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=vendor/lts_vendor/autocomplete&user_token={{ user_token }}&filter_store_owner=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        json.unshift({
+          vendor_id: 0,
+          name: '{{ text_none }}'
+        });
+
+        response($.map(json, function(item) {
+          return {
+            label: item['store_owner'],
+            value: item['vendor_id']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'vendor\']').val(item['label']);
+    $('input[name=\'vendor_id\']').val(item['value']);
+  }
+});
+
+//</script>  
+
+  
+
+{{ footer }}
+
+
+
+
+

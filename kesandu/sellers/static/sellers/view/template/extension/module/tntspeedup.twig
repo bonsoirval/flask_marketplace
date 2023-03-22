@@ -1,0 +1,475 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-tntspeedup" data-loading="loading..." data-toggle="tooltip" title="{{ button_save_exit }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <button type="submit" onclick="$('#form-tntspeedup').attr('action','{{ stay_action }}').submit(); return;" form="form-tntspeedup" data-toggle="tooltip" title="{{ button_save_stay }}" class="btn btn-success"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li ><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    {% if success %}
+      <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-tntspeedup" class="form-horizontal">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-compress" data-toggle="tab">{{ tab_compress }}</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab-compress">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-image_lazyload">{{ entry_image_lazyload }}</label>
+                    <div class="col-sm-9">
+                      <select name="tntspeedup_image_lazyload" id="input-image_lazyload" class="form-control">
+                        {% if tntspeedup_image_lazyload %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-minify_css">{{ entry_minify_css }}</label>
+                  <div class="col-sm-9">
+                    <select name="tntspeedup_minify_css" id="input-minify_css" class="form-control">
+                      {% if tntspeedup_minify_css %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-minify_js">{{ entry_minify_js }}</label>
+                  <div class="col-sm-9">
+                    <select name="tntspeedup_minify_js" id="input-minify_js" class="form-control">
+                      {% if tntspeedup_minify_js %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-minify_html">{{ entry_minify_html }}</label>
+                  <div class="col-sm-9">
+                    <select name="tntspeedup_minify_html" id="input-minify_html" class="form-control">
+                      {% if tntspeedup_minify_html %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-defer">{{ entry_defer }}</label>
+                  <div class="col-sm-9">
+                    <select name="tntspeedup_defer" id="input-defer" class="form-control">
+                      {% if tntspeedup_defer %}
+                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                      <option value="0">{{ text_disabled }}</option>
+                      {% else %}
+                      <option value="1">{{ text_enabled }}</option>
+                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+                {# <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-compression">{{ entry_compression }}</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="tntspeedup_compression" value="{{ tntspeedup_compression }}" placeholder="Output Compression Level" id="input-compression" class="form-control" />
+                    </div>
+                </div> #}
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="optimize_css_js">{{ entry_compress_css_js }}</label>
+                  <div class="col-sm-9">
+                    <button type="button" id="optimize_css_js" data-loading="loading..." data-toggle="tooltip" title="{{ entry_compress_css_js }}" class="btn btn-success"><i class="fa fa-dashboard"></i></button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+    <div id="image-crush-results"></div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="optimize_css_js modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">CSS Or JS Listing</h4>
+      </div>
+      <div class="modal-body" id="crush-results">
+        {{ allfolderjscss }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="submit-css-js" class="btn btn-success">Choose</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  #file-listing{border: 1px solid red;}
+  .note{font-size: 85%;color: #999;}
+  .section-wrap {background-color: #F8F8F8;border-radius: 8px;padding: 1em;border: 1px solid #E0E0E0;margin: 1em 0 1em 0;}
+  .image_crusher_compression_level {width: 40%;}
+  #form-image_crusher input[type='range'] {width: 40%;}
+  .levellabel {text-align: center;font-size: 20px;margin-top: 10px;margin-left: -110px;}
+  .title {padding-top: 30px;text-transform: uppercase;color: #ffa500;font-weight: bold;}
+  .warning {background-color: #f38733;border-radius: 4px;padding: 1em;width: 100%;color: #FFFFFF;font-weight: 500;}
+  .existing-images-input-box {margin-top: 2em;}
+  #existing-images-dialog-confirm {display:none;margin-bottom: 2em;overflow: visible;}
+  #image-crush-results {margin-top: 0.8em;position: fixed;top: 45%;left: 45%;border-radius: 60px;}
+  #image-crush-results .error {color: #f00;}
+  .checkmark {display:inline-block;width: 60px;transform: rotate(45deg);}
+  ul{list-style: none;}
+  .folder span{  position: relative;padding: 0px 0px 0px 10px;top: -3px;}
+  .folder{position: relative;}
+  .folder:before{content: '';position: absolute;height: 15px;background: url(/index.php?img=pngFolder) 0 0 no-repeat;width: 15px;
+    left: 20px;}
+  .colleps{height: 20px;padding: 0;display: inline-block;width: 20px;line-height: 18px;font-size: 17px;cursor: pointer;text-align: center;vertical-align: middle;position: relative;top: 0;left: 0;box-shadow: 0 0 1px #c1c1c1;background-color: #c1c1c1;border: 1px solid #c1c1c1;border-radius: 2px;}
+  .optimize_css_js .modal-body,#compress_results .modal-body,#crush-results,.optimize_table .modal-body{max-height: 600px;overflow: auto;}
+  .directory-ul li .folder{margin-left: -3px;}
+</style>
+<script type="text/javascript">
+// Speed Test
+$('#execute').on('click', function() {
+    var api = $('input[name=\'speedup_test_api_key\']').val();
+    var url = $('input[name=\'speedup_test_url\']').val();
+    var resources = $('select[name=\'speedup_test_resources\']').val();
+    var screenshot = $('select[name=\'speedup_test_screenshot\']').val();
+    var strategy = $('select[name=\'speedup_test_strategy\']').val();
+    $.ajax({
+        url: 'index.php?route=extension/module/tntspeedup/test_results',
+        data: 'api=' + api + '&url=' + url + '&resources=' + resources + '&screenshot=' + screenshot + '&strategy=' + strategy + '&token='+getURLVar('token'), 
+        type: 'get',
+        dataType: 'html',
+        beforeSend: function() {
+            $('#execute').button('loading');
+        },
+        success: function(html) {
+            $('#page-speed-test .modal-body').html(html);
+            $("#page-speed-test").modal();
+        },
+        complete: function() {
+            $('#execute').button('reset');
+        },
+    });
+});
+
+// Folder Collapse
+$('.colleps').click(function(){
+    var open = $(this).hasClass('open');
+    var li = $(this).parent('li');
+    if(open){
+      $(li).children('ul').hide();
+      $(this).html('+');
+      $(this).removeClass('open');
+    }else{
+      $(li).children('ul').show();
+      $(this).html('-');
+      $(this).addClass('open');
+    }
+    return false;
+});
+
+// CSS JS Compress Ajax
+$('#optimize_css_js').click(function(){
+    $('.optimize_css_js').modal('show');
+});
+$('#submit-css-js').click(function(){
+  var compressfile = $('input[type=checkbox]').serialize();
+  if(compressfile == ''){
+    alert("Select CSS Or JS Files..!");
+    return false;
+  }
+  if(!confirm('Are You Sure to Optimize CSS Or JS Files, Click OK And Optimize CSS Or JS Files For Fast loading Site.')) return false;
+  var _t = $(this);
+  $(_t).button('loading');
+  $.ajax({
+    url:"{{ compress_css_js }}",
+    type:"POST",
+    data:compressfile,
+    dataType:"json",
+    success:function(json){
+      if(json.files){
+        $('.optimize_css_js').modal('hide');
+        $('#compress_results .modal-body').html(json.files);
+        $('.optimize_css_js input[type=checkbox]').prop('checked',false);
+        $('#compress_results').modal('show');
+      }
+      $(_t).button('reset');
+    }
+  });
+  return false;
+});
+
+$('[form="form-speedup"]').click(function(){
+  $(this).button('loading');
+});
+
+$("#existing-images-submit").click(function() {
+    var imageFolder = $("input[name=speedup_existing_images_folder]").val();
+
+    if (imageFolder === '') {
+        $( "#error_crush_folder" ).empty().append('<span class="error">Please enter a folder</span>');
+        return;
+    }else{
+        $( "#error_crush_folder" ).empty();
+    }
+    if(!confirm('Once this process is started, all the images in the specified folder will be crushed. This action cannot be paused or reversed. Are you sure?')) return false;
+    var existingImageSlider = $("#image_crusher_existing_image_compression_level").val();  
+      $.ajax({ url: 'index.php?route=extension/module/tntspeedup/imagescompress&token={{ user_token }}', 
+          data: {
+            function: "compressImages", 
+            imageFolder: imageFolder, 
+            existingImageSlider: existingImageSlider
+          },
+          type: 'post',
+          dataType: 'json',
+          beforeSend: function() {
+            $('#image-crush-results').html('<img src="../image/processing.gif" width="150px" />');
+          },
+          success: function(json) {
+            $('#image-crush-results').empty();
+            //var content = output;
+            $('#crush_results').modal('show');
+            //$('#crush-results').html(content);
+            if(typeof json.files != 'undefined'){
+              var html = '<ul style="list-style-type:none;">';
+              $.each(json.files,function(i,v){
+                html += '<li>'+v+'</li>';
+              })
+              html += '</ul>';
+              console.log(html);
+            $('#crush-results').empty().append( html );
+            }
+          },
+          error: function(output) {
+            $('#image-crush-results').empty();
+            $( "#image-crush-results" ).empty().append('<span class="error">The specified image folder does not exist!</span>');
+          }
+      });
+      return false;
+});
+
+$(document).delegate('a[data-toggle=\'folder\']', 'click', function(e) {
+  e.preventDefault();
+
+  $('.popover').popover('hide', function() {
+    $('.popover').remove();
+  });
+
+  var element = this;
+
+  $(element).popover({
+    html: true,
+    placement: 'right',
+    trigger: 'manual',
+    content: function() {
+      return '<button type="button" id="button-image" class="btn btn-primary"><i class="fa fa-pencil"></i></button>';
+    }
+  });
+
+  $(element).popover('show');
+
+  $('#button-image').on('click', function() {
+    $('#modal-image').remove();
+
+    $.ajax({
+      url: 'index.php?route=common/folder_manager&token=' + getURLVar('token') + '&target=' + $(element).parent().find('input').attr('id') + '&thumb=' + $(element).attr('id'),
+      dataType: 'html',
+      beforeSend: function() {
+        $('#button-image i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
+        $('#button-image').prop('disabled', true);
+      },
+      complete: function() {
+        $('#button-image i').replaceWith('<i class="fa fa-pencil"></i>');
+        $('#button-image').prop('disabled', false);
+      },
+      success: function(html) {
+        $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+
+        $('#modal-image').modal('show');
+      }
+    });
+
+    $(element).popover('hide', function() {
+      $('.popover').remove();
+    });
+  });
+
+  $('#button-clear').on('click', function() {
+    $(element).find('img').attr('src', $(element).find('img').attr('data-placeholder'));
+
+    $(element).parent().find('input').attr('value', '');
+
+    $(element).popover('hide', function() {
+      $('.popover').remove();
+    });
+  });
+});
+
+// tooltips on hover
+$('[data-toggle=\'tooltip\']').tooltip({container: 'body', html: true});
+
+// Makes tooltips work on ajax generated content
+$(document).ajaxStop(function() {
+  $('[data-toggle=\'tooltip\']').tooltip({container: 'body'});
+});
+
+// https://github.com/opencart/opencart/issues/2595
+$.event.special.remove = {
+  remove: function(o) {
+    if (o.handler) {
+      o.handler.apply(this, arguments);
+    }
+  }
+}
+
+$('[data-toggle=\'tooltip\']').on('remove', function() {
+  $(this).tooltip('destroy');
+});
+
+$(document).delegate('#save_path', 'click', function() {
+  var path = $('input[name=path]:checked').val();
+  if(path){
+    $('#image_crusher_existing_images_folder').val(path);
+    $("#folder_manager .close").trigger('click');
+  }else{
+    alert('Select Any Directory!!');
+    return false;
+  }
+});
+
+// Speedup Page Cache Functions
+
+
+$('#input-page_cache').change(function(){
+    var val = $(this).val();
+    if(val == 1){
+        $('#show-page-cache').css('display','block');
+    }else{
+        $('#show-page-cache').css('display','none');
+    }
+});
+
+
+function fillstats() {
+  $(document).ready(function() {
+      $.ajax({
+          url: 'index.php?route=extension/module/tntspeedup/stats'+
+               '&token={{ user_token }}',
+                type: 'get',
+                dataType: 'json',
+                success: function(json) {
+                    var items=[ 'totalfv','totalbv', 'totalfe',
+                    'totalbe', 'totalf','totalb'];
+                    for (var i=0;i<items.length;i++) {
+                        var item=items[i];
+                        $('#'+item).fadeOut();
+                        $('#'+item).html(json[item]);
+                        $('#'+item).fadeIn();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    // 200 ok, with ajax error probably expired admin session
+                    if (xhr.status == 200) {
+                        alert('admin session expired? reloading page');
+                        location.reload();
+                    } else {
+                        alert('ajax load error: ' + xhr.status +
+                              'error [' + thrownError + ']');
+                    }
+                }
+      });
+  });
+}
+
+function purge(which) {
+    $(document).ready(function() {
+        $.ajax({
+            url: 'index.php?route=extension/module/tntspeedup/purge'+
+               '&which='+which+
+               '&token={{ user_token }}',
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function() {
+                $('#purgeall').prop('disabled',true);
+                $('#purgeexpired').prop('disabled',true);
+                $('#purgeall').fadeTo('slow',0.5);
+                $('#purgeexpired').fadeTo('slow',0.5);
+            },
+            complete: function() {
+                $('#purgeall').prop('disabled',false);
+                $('#purgeexpired').prop('disabled',false);
+                $('#purgeall').fadeTo('fast',1);
+                $('#purgeexpired').fadeTo('fast',1);
+            },
+            success: function(json) {
+              alert(json['success']);
+              fillstats();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                // 200 ok, with ajax error probably expired admin session
+                if (xhr.status == 200) {
+                    alert('admin session expired? reloading page');
+                    location.reload();
+                } else {
+                    alert('ajax load error: ' + xhr.status +
+                          'error [' + thrownError + ']');
+                }
+            }
+
+      });
+  });
+}
+
+
+
+</script>
+{{ footer }}

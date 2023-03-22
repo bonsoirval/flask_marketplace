@@ -11,8 +11,8 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from config import Config
-from flask_authorize import Authorize
-
+# from flask_authorize import Authorize
+from flask_session import Session
 
 
 db = SQLAlchemy()
@@ -24,15 +24,16 @@ mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
 babel = Babel()
-authorize = Authorize()
+# authorize = Authorize()
+# Session = Session()
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    # Use config class as config object
     app.config.from_object(config_class)
     # app.jinja_env.undefined = StrictUndefined
-    
-    
+        
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
@@ -40,8 +41,10 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
-    authorize.init_app(app)
+    # authorize.init_app(app)
+    # Session.init_app(app)
 
+    # Errors
     # from kesandu.errors import bp as errors_bp
     # app.register_blueprint(errors_bp)
     
@@ -49,13 +52,18 @@ def create_app(config_class=Config):
     from kesandu.frontend import bp as frontend_bp
     app.register_blueprint(frontend_bp)
     
-    # from kesandu.auth import bp as auth_bp
-    # app.register_blueprint(auth_bp, url_prefix='/auth')
+    # Auth 
+    from kesandu.auth import bp as authbp
+    app.register_blueprint(authbp, url_prefix='/auth')
     
     # sellers
-    # from kesandu.sellers import bp as sellers_bp
-    # app.register_blueprint(sellers_bp, url_prefi='/sellers')
+    from kesandu.sellers import bp as sellers_bp
+    app.register_blueprint(sellers_bp, url_prefi='/sellers')
 
+    # Admin
+    from kesandu.admin import bp as admin_bp
+    app.register_blueprint(admin_bp, url_prefi='/admin')
+    
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
             auth = None

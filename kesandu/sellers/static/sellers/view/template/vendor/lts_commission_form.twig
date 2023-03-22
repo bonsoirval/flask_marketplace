@@ -1,0 +1,81 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-commission" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-commission" class="form-horizontal">
+	        <div class="form-group required">
+	            <label class="col-sm-2 control-label" for="input-category">{{ entry_category }}</label>
+	            <div class="col-sm-10">
+	            	<select class="form-control" name="category_id">
+	            		<option value=""> {{ text_select }} </option>
+	            		{% if categories %}
+	            			{% for category in categories %}
+                      {% if category.category_id == category_id %}
+                        <option value="{{ category.category_id }}"  selected="selected">{{ category.name }}</option>
+                      {% else %}
+                        <option value="{{ category.category_id }}">{{ category.name }}</option>
+                      {% endif %}
+	            			{% endfor %}
+	            		{% endif %}
+	            	</select>
+	            	{% if error_category %} 
+	            		<div class="text-danger">{{ error_category }}</div>
+	            	{% endif %}
+	            </div>
+	        </div>
+
+	        <div class="form-group">
+	            <label class="col-sm-2 control-label" for="input-commission">{{ entry_commission_type }}</label>
+	            <div class="col-sm-10">
+                <select class="form-control" name="commission_type">
+                  {% if commission_type == 'p' %}
+                    <option value="p" selected="selected">{{ text_percentage }}</option>
+                    <option value="f">{{ text_fixed }}</option>
+                  {% else %}
+                    <option value="p">{{ text_percentage }}</option>
+                    <option value="f"  selected="selected">{{ text_fixed }}</option>
+                  {% endif %}
+                </select>
+
+	            </div>
+	        </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="commission-value">{{ entry_commission }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="commission" value="{{ commission }}" class="form-control" placeholder="{{ entry_commission }}">
+               {% if error_commission %}
+                <div class="text-danger">{{ error_commission }}</div>
+              {% endif %}
+            </div>
+             
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

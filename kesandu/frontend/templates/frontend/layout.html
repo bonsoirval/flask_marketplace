@@ -46,7 +46,6 @@
         $(function() {
             $('button#add_to_cart').bind('click', function() {
                 $.getJSON($SCRIPT_ROOT + {{url_for('frontend.fe_cart')}},{
-
                     seller_id: $('input[name="seller_id"]').val(),
                     quantity: $('input[name="quantity"]').val(),
                     product_id: $('input[name="product_id"]').val(),

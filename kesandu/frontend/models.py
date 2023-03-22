@@ -9,25 +9,13 @@ from kesandu import db, login
 from sqlalchemy import Column, ForeignKey
 from flask_authorize import RestrictionsMixin, AllowancesMixin
 from sqlalchemy.dialects.mysql import DATE,DECIMAL, SMALLINT, FLOAT, TEXT,INTEGER, VARCHAR, FLOAT, DECIMAL, CHAR, DOUBLE, ENUM,   DATETIME
+from kesandu.models import UserGroup, UserRole
 
-
-# for flask_authorize use
-UserGroup = db.Table(
-    'user_group', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
-)
-
-UserRole = db.Table(
-    'user_role', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
-)
 
 
 class User(db.Model, UserMixin):
-    # __tablename__='users'
-    __abstract__=True
+    __tablename__='users'
+
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, default='bonsoirval@gmail.com')
@@ -69,27 +57,7 @@ class User(db.Model, UserMixin):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-
-class Seller(db.Model, UserMixin):
-    # __tablename__ = 'sellers'
-    __abstract__ = True
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    firstName = db.Column(db.String(125), nullable=False)
-    lastName = db.Column(db.String(125), nullable=False) 
-    email = db.Column(db.String(100), nullable=False)
-    mobile = db.Column(db.String(25), nullable = False)
-    address = db.Column(db.Text(), nullable=False)
-    password_hash = db.Column(db.String(100), nullable=False)
-    type = db.Column(db.String(20),  nullable=False)
-    confirmCode = db.Column(db.String(10), nullable=False)
-    # product_id = Column(INTEGER(11), db.ForeignKey('products.id'), nullable=True)
-    # product = db.relationship('Product', backref='products', lazy=True)
-    
-    
-    def __repr__(self):
-        return '<Seller {}>'.format(self.username)    
-    
+   
     
 class Group(db.Model, RestrictionsMixin):
     __tablename__ = 'groups'
@@ -105,29 +73,29 @@ class Role(db.Model, AllowancesMixin):
     name = db.Column(db.String(255), nullable=False, unique=True)
 
 
-class Customer(db.Model):
-    id  = Column(INTEGER(11), primary_key=True, nullable=False)
-    customer_group_id = Column(INTEGER(11), nullable=False)
-    store_id = Column(INTEGER(11), nullable=False, default = 0)
-    language_id  = Column(INTEGER(11), nullable=False)
-    firstname  = Column(VARCHAR(32), nullable = False)
-    lastname  = Column(VARCHAR(32), nullable = False)
-    email  = Column(VARCHAR(96), nullable = False)
-    telephone  = Column(VARCHAR(32), nullable = False)
-    fax  = Column(VARCHAR(32), nullable = False)
-    password  = Column(VARCHAR(40), nullable = False)
-    salt  = Column(VARCHAR(9), nullable = False)
-    cart  = Column(TEXT)
-    wishlist  = Column(TEXT)
-    newsletter  = Column(INTEGER(1), nullable = False, default = 0)
-    address_id  = Column(INTEGER(11), nullable = False, default = 0)
-    custom_field  = Column(TEXT, nullable=False)
-    ip  = Column(VARCHAR(40), nullable = False)
-    status  = Column(INTEGER(1), nullable = False)
-    safe  = Column(INTEGER(1), nullable = False)
-    token  = Column(TEXT, nullable= False)
-    code  = Column(VARCHAR(40), nullable = False)
-    date_added = Column(db.DateTime, nullable=False)
+# class Customer(db.Model):
+#     id  = Column(INTEGER(11), primary_key=True, nullable=False)
+#     customer_group_id = Column(INTEGER(11), nullable=False)
+#     store_id = Column(INTEGER(11), nullable=False, default = 0)
+#     language_id  = Column(INTEGER(11), nullable=False)
+#     firstname  = Column(VARCHAR(32), nullable = False)
+#     lastname  = Column(VARCHAR(32), nullable = False)
+#     email  = Column(VARCHAR(96), nullable = False)
+#     telephone  = Column(VARCHAR(32), nullable = False)
+#     fax  = Column(VARCHAR(32), nullable = False)
+#     password  = Column(VARCHAR(40), nullable = False)
+#     salt  = Column(VARCHAR(9), nullable = False)
+#     cart  = Column(TEXT)
+#     wishlist  = Column(TEXT)
+#     newsletter  = Column(INTEGER(1), nullable = False, default = 0)
+#     address_id  = Column(INTEGER(11), nullable = False, default = 0)
+#     custom_field  = Column(TEXT, nullable=False)
+#     ip  = Column(VARCHAR(40), nullable = False)
+#     status  = Column(INTEGER(1), nullable = False)
+#     safe  = Column(INTEGER(1), nullable = False)
+#     token  = Column(TEXT, nullable= False)
+#     code  = Column(VARCHAR(40), nullable = False)
+#     date_added = Column(db.DateTime, nullable=False)
    
 
 class CustomerActivity(db.Model):
@@ -518,18 +486,6 @@ class language(db.Model):
     status = Column(INTEGER(1), nullable=False)
 
 
-# class Category(db.Model):
-#     id = Column(INTEGER(11), primary_key=True, nullable=False)
-#     image = Column(VARCHAR(255), nullable = True, default = "NULL")
-#     parent_id = Column(INTEGER(11), nullable=True, default='0')
-#     top = Column(INTEGER(1), nullable = True)
-#     column = Column(INTEGER(3), nullable = False)
-#     sort_order = Column(INTEGER(3), nullable = True, default='0')
-#     status = Column(INTEGER(1), nullable=True)
-#     date_added = Column(db.DateTime, nullable=False, default= datetime.utcnow)
-#     date_modified = Column(db.DateTime, nullable = False, default = '00-00-0000')
-    
-    
 class CategoryDescription(db.Model):
     id = Column(INTEGER(11), nullable = False, primary_key = True)
     category_id = Column(INTEGER(11), ForeignKey('category.id'), nullable = False)
@@ -545,7 +501,7 @@ class CategoryDescription(db.Model):
 class Customer(db.Model):
     __tablename__='customers'
     
-    id  = Column(INTEGER(11), ForeignKey('User.id'), primary_key=True, nullable=False)
+    id  = Column(INTEGER(11), primary_key=True, nullable=False)
     customer_group_id = Column(INTEGER(11), nullable=False)
     store_id = Column(INTEGER(11), nullable=False, default = 0)
     language_id  = Column(INTEGER(11), nullable=False)
@@ -568,9 +524,6 @@ class Customer(db.Model):
     code  = Column(VARCHAR(40), nullable = False)
     date_added = Column(db.DateTime, nullable=False)
     
-    def hello_customer():
-        return "How u customer?"
-   
 
 # class CustomerActivity(db.Model):
 #     id = Column(INTEGER(11), primary_key=True, nullable=False)

@@ -1,0 +1,529 @@
+{{ header }}
+<style type="text/css">
+.note {
+    font-size: 85%;
+    color: #999;
+}
+</style>
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+        <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-togglde="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+        <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if error_tab %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_tab }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+        </div>
+           
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-tntthemesetting_status">{{ text_status }}</label>
+          <div class="col-sm-10">
+             <select name="tntthemesetting_status" id="input-tntthemesetting_status" class="form-control">
+                {% if tntthemesetting_status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+          </div>
+        </div>   
+        
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab-genral" data-toggle="tab">{{ text_tabtitle_genral }}</a></li>
+              <li><a href="#tab-footer" data-toggle="tab">{{ text_tabtitle_footer }}</a></li>
+              <li class="hidden"><a href="#tab-header" data-toggle="tab">{{ text_tabtitle_header }}</a></li>
+              <li><a href="#tab-image" data-toggle="tab">{{ text_tabtitle_image }}</a></li>
+              <li class="hidden"><a href="#tab-minify" data-toggle="tab">{{ label_tab }}</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab-genral">
+                  <div class="form-group"> 
+                    <label class="col-sm-2 control-label" for="input-pageloading">{{ text_page_loading }}</label>
+                    <div class="col-sm-10">
+                      <label class="radio-inline"> {% if tntthemesetting_genral.pageloading %}
+                        <input type="radio" name="tntthemesetting_genral[pageloading]" value="1" checked="checked" />
+                        {{ text_yes }}
+                        {% else %}
+                        <input type="radio" name="tntthemesetting_genral[pageloading]" value="1" />
+                        {{ text_yes }}
+                        {% endif %} </label>
+                      <label class="radio-inline"> {% if not tntthemesetting_genral.pageloading %}
+                        <input type="radio" name="tntthemesetting_genral[pageloading]" value="0" checked="checked" />
+                        {{ text_no }}
+                        {% else %}
+                        <input type="radio" name="tntthemesetting_genral[pageloading]" value="0" />
+                        {{ text_no }}
+                        {% endif %} </label>
+                    </div>
+                  </div>
+                  <div class="form-group"> 
+                      <label class="col-sm-2 control-label" for="input-animation">{{ text_animation }}</label>
+                      <div class="col-sm-10">
+                        <label class="radio-inline"> {% if tntthemesetting_genral.animation %}
+                          <input type="radio" name="tntthemesetting_genral[animation]" value="1" checked="checked" />
+                          {{ text_yes }}
+                          {% else %}
+                          <input type="radio" name="tntthemesetting_genral[animation]" value="1" />
+                          {{ text_yes }}
+                          {% endif %} </label>
+                        <label class="radio-inline"> {% if not tntthemesetting_genral.animation %}
+                          <input type="radio" name="tntthemesetting_genral[animation]" value="0" checked="checked" />
+                          {{ text_no }}
+                          {% else %}
+                          <input type="radio" name="tntthemesetting_genral[animation]" value="0" />
+                          {{ text_no }}
+                          {% endif %} </label>
+                      </div>
+                  </div>
+                  <div class="form-group"> 
+                    <label class="col-sm-2 control-label" for="input-producthover">{{ text_product_hover }}</label>
+                    <div class="col-sm-10">
+                      <label class="radio-inline"> {% if tntthemesetting_genral.producthover %}
+                        <input type="radio" name="tntthemesetting_genral[producthover]" value="1" checked="checked" />
+                        {{ text_yes }}
+                        {% else %}
+                        <input type="radio" name="tntthemesetting_genral[producthover]" value="1" />
+                        {{ text_yes }}
+                        {% endif %} </label>
+                      <label class="radio-inline"> {% if not tntthemesetting_genral.producthover %}
+                        <input type="radio" name="tntthemesetting_genral[producthover]" value="0" checked="checked" />
+                        {{ text_no }}
+                        {% else %}
+                        <input type="radio" name="tntthemesetting_genral[producthover]" value="0" />
+                        {{ text_no }}
+                        {% endif %} </label>
+                    </div>
+                  </div>
+                  <div class="form-group"> 
+                    <label class="col-sm-2 control-label" for="input-menusticky">{{ text_menu_sticky }}</label>
+                    <div class="col-sm-10">
+                      <label class="radio-inline"> {% if tntthemesetting_genral.menusticky %}
+                        <input type="radio" name="tntthemesetting_genral[menusticky]" value="1" checked="checked" />
+                        {{ text_yes }}
+                        {% else %}
+                        <input type="radio" name="tntthemesetting_genral[menusticky]" value="1" />
+                        {{ text_yes }}
+                        {% endif %} </label>
+                      <label class="radio-inline"> {% if not tntthemesetting_genral.menusticky %}
+                        <input type="radio" name="tntthemesetting_genral[menusticky]" value="0" checked="checked" />
+                        {{ text_no }}
+                        {% else %}
+                        <input type="radio" name="tntthemesetting_genral[menusticky]" value="0" />
+                        {{ text_no }}
+                        {% endif %} </label>
+                    </div>
+                  </div>
+              </div>
+              <div class="tab-pane" id="tab-footer">
+                    <div class="form-group"> 
+                      <label class="col-sm-3 control-label" for="input-copyrighttextdisplay">{{ text_copy_right_text_display }}</label>
+                      <div class="col-sm-9">
+                        <select name="tntthemesetting_customparent[copyrighttextdisplay]" id="input-copyrighttextdisplay" class="form-control">
+                          
+                          <option value="1" {% if tntthemesetting_customparent.copyrighttextdisplay == "1" %}selected="selected"{% endif %}>{{ text_enabled }}</option>
+                          <option value="0" {% if tntthemesetting_customparent.copyrighttextdisplay == "0" %}selected="selected"{% endif %}>{{ text_disabled }}</option>
+                          
+                          
+                        </select>
+                        {{ text_cust_status_des }}
+                      </div>
+                    </div>
+                    <ul class="nav nav-tabs" id="language_4">
+                      {% for language in languages %}
+                      <li><a href="#language_4{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  <div class="tab-content">{% for language in languages %}
+                    <div class="tab-pane" id="language_4{{ language.language_id }}">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-copyrighttext{{ language.language_id }}">{{ text_copy_right_text }}</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="tntthemesetting_footer[language][{{ language.language_id }}][copyrighttext]" value="{{ tntthemesetting_footer.language[language.language_id] ? tntthemesetting_footer.language[language.language_id].copyrighttext }}" placeholder="{{ text_copy_right_text }}" id="input-copyrighttext{{ language.language_id }}" class="form-control" />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-customlink{{ language.language_id }}">{{ text_copy_right_text_link }}</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="tntthemesetting_footer[language][{{ language.language_id }}][copyrightlink]" value="{{ tntthemesetting_footer.language[language.language_id] ? tntthemesetting_footer.language[language.language_id].copyrightlink }}" placeholder="{{ text_copy_right_text_link }}" id="input-customlink{{ language.language_id }}" class="form-control" />
+                            </div>
+                          </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+              </div>
+              
+              <div class="tab-pane" id="tab-image">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_sliderimage }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_sliderimage_width" value="{{ tntthemesetting_sliderimage_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_sliderimage_height" value="{{ tntthemesetting_sliderimage_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_sliderimage %}
+                      <div class="text-danger">{{ error_sliderimage }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_brandimage }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_brandimage_width" value="{{ tntthemesetting_brandimage_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_brandimage_height" value="{{ tntthemesetting_brandimage_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_brandimage %}
+                      <div class="text-danger">{{ error_brandimage }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_categoryimage }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_categoryimage_width" value="{{ tntthemesetting_categoryimage_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_categoryimage_height" value="{{ tntthemesetting_categoryimage_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_categoryimage %}
+                      <div class="text-danger">{{ error_categoryimage }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_testimonial }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_testimonial_width" value="{{ tntthemesetting_testimonial_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_testimonial_height" value="{{ tntthemesetting_testimonial_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_testimonial %}
+                      <div class="text-danger">{{ error_testimonial }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_singleblock }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_offerbanner_width" value="{{ tntthemesetting_offerbanner_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_offerbanner_height" value="{{ tntthemesetting_offerbanner_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                      {% if error_singleblock %}
+                        <div class="text-danger">{{ error_singleblock }}</div>
+                      {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_singleblock1 }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_testimonialbgimage_width" value="{{ tntthemesetting_testimonialbgimage_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_testimonialbgimage_height" value="{{ tntthemesetting_testimonialbgimage_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_singleblock1 %}
+                      <div class="text-danger">{{ error_singleblock1 }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_payemtnicon }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_payemtnicon_width" value="{{ tntthemesetting_payemtnicon_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_payemtnicon_height" value="{{ tntthemesetting_payemtnicon_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                    {% if error_payemtnicon %}
+                      <div class="text-danger">{{ error_payemtnicon }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_imagegallery }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_imagegallery_width" value="{{ tntthemesetting_imagegallery_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_imagegallery_height" value="{{ tntthemesetting_imagegallery_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_imagegallery %}
+                    <div class="text-danger">{{ error_imagegallery }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+
+                <!-- adad -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-image-compare">{{ text_leftrightproduct }}</label>
+                    <div class="col-sm-9">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <input type="text" name="tntthemesetting_leftrightproduct_width" value="{{ tntthemesetting_leftrightproduct_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                        </div>
+                        <div class="col-sm-6">
+                          <input type="text" name="tntthemesetting_leftrightproduct_height" value="{{ tntthemesetting_leftrightproduct_height }}" placeholder="{{ text_height }}" class="form-control" />
+                        </div>
+                      </div>
+                    {% if error_leftrightproduct %}
+                      <div class="text-danger">{{ error_leftrightproduct }}</div>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_leftrighttestimoinal }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_leftrighttestimoinal_width" value="{{ tntthemesetting_leftrighttestimoinal_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_leftrighttestimoinal_height" value="{{ tntthemesetting_leftrighttestimoinal_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_leftrighttestimoinal %}
+                    <div class="text-danger">{{ error_leftrighttestimoinal }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_newsletterpopup }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_newsletterpopup_width" value="{{ tntthemesetting_newsletterpopup_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_newsletterpopup_height" value="{{ tntthemesetting_newsletterpopup_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_newsletterpopup %}
+                    <div class="text-danger">{{ error_newsletterpopup }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_tabproduct }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_tabproduct_width" value="{{ tntthemesetting_tabproduct_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_tabproduct_height" value="{{ tntthemesetting_tabproduct_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_tabproduct %}
+                    <div class="text-danger">{{ error_tabproduct }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_popupcart }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_popupcart_width" value="{{ tntthemesetting_popupcart_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_popupcart_height" value="{{ tntthemesetting_popupcart_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_popupcart %}
+                    <div class="text-danger">{{ error_popupcart }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_livesearch }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_livesearch_width" value="{{ tntthemesetting_livesearch_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_livesearch_height" value="{{ tntthemesetting_livesearch_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_livesearch %}
+                    <div class="text-danger">{{ error_livesearch }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_quickview }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_quickview_width" value="{{ tntthemesetting_quickview_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_quickview_height" value="{{ tntthemesetting_quickview_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_quickview %}
+                    <div class="text-danger">{{ error_quickview }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-image-compare">{{ text_newproductbanner }}</label>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_newproductbanner_width" value="{{ tntthemesetting_newproductbanner_width }}" placeholder="{{ text_width }}" id="input-image-compare" class="form-control" />
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" name="tntthemesetting_newproductbanner_height" value="{{ tntthemesetting_newproductbanner_height }}" placeholder="{{ text_height }}" class="form-control" />
+                      </div>
+                    </div>
+                  {% if error_newproductbanner %}
+                    <div class="text-danger">{{ error_newproductbanner }}</div>
+                  {% endif %}
+                  </div>
+                </div>
+
+                <!-- adad -->
+              </div>
+              <div class="tab-pane hidden" id="tab-minify">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-minify_css">{{ label_minifycss }}<br><span class="note">{{ label_minifycss_des }}</span></label>
+                  <div class="col-sm-9">
+                    <label class="radio-inline"> {% if tntthemesetting_minifycss %}
+                      <input type="radio" name="tntthemesetting_minifycss" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="tntthemesetting_minifycss" value="1" />
+                      {{ text_yes }}
+                      {% endif %} 
+                    </label>
+                    <label class="radio-inline"> {% if not tntthemesetting_minifycss %}
+                      <input type="radio" name="tntthemesetting_minifycss" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="tntthemesetting_minifycss" value="0" />
+                      {{ text_no }}
+                      {% endif %} 
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-minifyhtml">{{ label_minifyhtml }}<br><span class="note">{{ label_minifyhtml_des }}</span></label>
+                  <div class="col-sm-9">
+                    <label class="radio-inline"> {% if tntthemesetting_minifyhtml %}
+                      <input type="radio" name="tntthemesetting_minifyhtml" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="tntthemesetting_minifyhtml" value="1" />
+                      {{ text_yes }}
+                      {% endif %} 
+                    </label>
+                    <label class="radio-inline"> {% if not tntthemesetting_minifyhtml %}
+                      <input type="radio" name="tntthemesetting_minifyhtml" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="tntthemesetting_minifyhtml" value="0" />
+                      {{ text_no }}
+                      {% endif %} 
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="input-minifyjs">{{ label_minifyjs }}<br><span class="note">{{ label_minifyjs_des }}</span></label>
+                  <div class="col-sm-9">
+                    <label class="radio-inline"> {% if tntthemesetting_minifyjs %}
+                      <input type="radio" name="tntthemesetting_minifyjs" value="1" checked="checked" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="tntthemesetting_minifyjs" value="1" />
+                      {{ text_yes }}
+                      {% endif %} 
+                    </label>
+                    <label class="radio-inline"> {% if not tntthemesetting_minifyjs %}
+                      <input type="radio" name="tntthemesetting_minifyjs" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="tntthemesetting_minifyjs" value="0" />
+                      {{ text_no }}
+                      {% endif %} 
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+</div>
+  <script type="text/javascript"><!--
+$('#language_1 a:first').tab('show');
+$('#language_2 a:first').tab('show');
+$('#language_3 a:first').tab('show');
+$('#language_4 a:first').tab('show');
+//--></script>
+
+{{ footer }}

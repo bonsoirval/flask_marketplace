@@ -1,0 +1,519 @@
+{% extends 'sellers/s_layout.html' %}
+{% block body %}
+<div id="container">
+    <header id="header" class="navbar navbar-static-top">
+    
+        <div id="header-logo" class="navbar-header">
+            <a href="http://localhost/market/admin/index.php?route=common/dashboard&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H" class="navbar-brand">
+                <img src="view/image/logo.png" alt="OpenCart" title="OpenCart" /> 
+                <i class="fa fa-opencart"></i>
+                <span class="hidden">OpenCart</span>
+            </a>
+        </div>
+        <a id="button-menu"><span class="fa fa-bars"></span></a>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="http://localhost/market/image/cache/profile-45x45.png" alt="John Doe" title="bonsoirval@gmail.com" id="user-profile" class="img-circle" />John Doe 
+                    <i class="fa fa-caret-down fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=common/profile&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            <i class="fa fa-user-circle-o fa-fw"></i> Your Profile
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Stores</li>
+                    <li><a href="http://localhost/market/" target="_blank">Your Store</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Help</li>
+                    <li>
+                        <a href="http://www.opencart.com" target="_blank">
+                            <i class="fa fa-opencart fa-fw"></i>
+                            OpenCart Homepage
+                        </a>
+                    </li>
+                    <li>   
+                        <a href="http://docs.opencart.com" target="_blank">
+                            <i class="fa fa-file-text-o fa-fw"></i> 
+                            Documentation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://forum.opencart.com" target="_blank">
+                            <i class="fa fa-comments-o fa-fw"></i>
+                            Support Forum
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{{url_for('sellers.s_logout')}}">
+                    <i class="fa fa-sign-out"></i> 
+                        <span class="hidden-xs hidden-sm hidden-md">
+                            Logout
+                        </span>
+                </a>
+            </li>
+        </ul>
+    </header>
+    <nav id="column-left">
+        <div id="navigation">
+            Navigation
+        </div>
+            <ul id="menu">
+            <li id="menu-dashboard">
+                <a href="http://localhost/market/admin/index.php?route=common/dashboard&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                    <i class="fa fa-dashboard fw"></i> 
+                    <span>
+                        Dashboard
+                    </span>
+                </a>
+            </li>
+            <li id="menu-catalog">  
+                <a class="parent">
+                    <i class="fa fa-tags fw"></i> 
+                    <span>Catalog</span>
+                </a>             
+                <ul>
+                    <li>
+                        <a href="{{url_for('sellers.view_categories')}}">
+                            Categories
+                        </a>            
+                    </li>
+                    <li>
+                        <a href="{{url_for('sellers.view_products')}}">
+                            Products
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('sellers.view_recurring_profiles')}}">
+                            Recurring Profiles
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=catalog/filter&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            Filters
+                        </a>
+                    </li>
+                    <li>
+                        <a class="parent">
+                            Attributes
+                        </a>   
+                        <ul>
+                            <li>
+                                <a href="http://localhost/market/admin/index.php?route=catalog/attribute&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                                    Attributes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://localhost/market/admin/index.php?route=catalog/attribute_group&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                                    Attribute Groups
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=catalog/option&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            Options
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=catalog/manufacturer&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            Manufacturers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=catalog/download&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            Downloads
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=catalog/review&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            Reviews
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost/market/admin/index.php?route=catalog/information&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                            Information
+                        </a>
+                    </li>
+                </ul>
+           </li>
+            <li id="menu-extension">
+              <a class="parent"><i class="fa fa-puzzle-piece fw"></i>
+                <span>Extensions</span></a>
+                  <ul>
+                    <li>
+                      <a href="http://localhost/market/admin/index.php?route=marketplace/marketplace&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                        Marketplace
+                      </a>
+                    </li>
+                    <li>
+                      <a href="http://localhost/market/admin/index.php?route=marketplace/installer&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                        Installer
+                      </a>
+                    </li>
+                    <li>
+                      <a href="http://localhost/market/admin/index.php?route=marketplace/extension&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                        Extensions
+                      </a>
+                    </li>
+                    <li>
+                      <a href="http://localhost/market/admin/index.php?route=marketplace/modification&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                        Modifications
+                      </a>
+                    </li>
+                    <li>
+                      <a href="http://localhost/market/admin/index.php?route=marketplace/event&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                        Events
+                      </a>
+                    </li>
+                  </ul>
+          </li>
+          <li id="menu-design">
+            <a class="parent">
+              <i class="fa fa-television fw"></i>
+                <span>Design</span>
+            </a>
+            <ul>
+              <li>  
+                <a href="http://localhost/market/admin/index.php?route=design/layout&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                  Layouts
+                </a>
+              </li>
+              <li>
+                <a href="http://localhost/market/admin/index.php?route=design/theme&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                  Theme Editor
+                </a>
+              </li>
+              <li>
+                <a href="http://localhost/market/admin/index.php?route=design/translation&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                  Language Editor
+                </a>
+              </li>
+              <li>
+                <a href="http://localhost/market/admin/index.php?route=design/banner&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">
+                  Banners
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li id="menu-sale">
+            <a class="parent"><i class="fa fa-shopping-cart fw"></i> 
+              <span>Sales</span></a>
+                <ul>
+                    <li><a href="http://localhost/market/admin/index.php?route=sale/order&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Orders</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=sale/recurring&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Recurring Profiles</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=sale/return&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Returns</a>            </li>
+                    <li><a class="parent">Gift Vouchers</a><ul>
+                            <li><a href="http://localhost/market/admin/index.php?route=sale/voucher&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Gift Vouchers</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=sale/voucher_theme&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Voucher Themes</a>                </li>
+                          </ul>
+               </li>
+                  </ul>
+           </li>
+            <li id="menu-customer">  <a class="parent"><i class="fa fa-user fw"></i> <span>Customers</span></a>             <ul>
+                    <li><a href="http://localhost/market/admin/index.php?route=customer/customer&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Customers</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=customer/customer_group&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Customer Groups</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=customer/customer_approval&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Customer Approvals</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=customer/custom_field&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Custom Fields</a>            </li>
+                  </ul>
+           </li>
+            <li id="menu-marketing">  <a class="parent"><i class="fa fa-share-alt fw"></i> <span>Marketing</span></a>             <ul>
+                    <li><a href="http://localhost/market/admin/index.php?route=marketing/marketing&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Marketing</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=marketing/coupon&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Coupons</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=marketing/contact&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Mail</a>            </li>
+                  </ul>
+           </li>
+            <li id="menu-system">  <a class="parent"><i class="fa fa-cog fw"></i> <span>System</span></a>             <ul>
+                    <li><a href="http://localhost/market/admin/index.php?route=setting/store&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Settings</a>            </li>
+                    <li><a class="parent">Users</a><ul>
+                            <li><a href="http://localhost/market/admin/index.php?route=user/user&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Users</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=user/user_permission&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">User Groups</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=user/api&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">API</a>                </li>
+                          </ul>
+               </li>
+                    <li><a class="parent">Localisation</a><ul>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/location&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Store Location</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/language&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Languages</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/currency&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Currencies</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/stock_status&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Stock Statuses</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/order_status&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Order Statuses</a>                </li>
+                            <li><a class="parent">Returns</a><ul>
+                                    <li><a href="http://localhost/market/admin/index.php?route=localisation/return_status&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Return Statuses</a></li>
+                                    <li><a href="http://localhost/market/admin/index.php?route=localisation/return_action&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Return Actions</a></li>
+                                    <li><a href="http://localhost/market/admin/index.php?route=localisation/return_reason&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Return Reasons</a></li>
+                                  </ul>
+                   </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/country&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Countries</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/zone&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Zones</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/geo_zone&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Geo Zones</a>                </li>
+                            <li><a class="parent">Taxes</a><ul>
+                                    <li><a href="http://localhost/market/admin/index.php?route=localisation/tax_class&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Tax Classes</a></li>
+                                    <li><a href="http://localhost/market/admin/index.php?route=localisation/tax_rate&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Tax Rates</a></li>
+                                  </ul>
+                   </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/length_class&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Length Classes</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=localisation/weight_class&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Weight Classes</a>                </li>
+                          </ul>
+               </li>
+                    <li><a class="parent">Maintenance</a><ul>
+                            <li><a href="http://localhost/market/admin/index.php?route=tool/backup&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Backup / Restore</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=tool/upload&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Uploads</a>                </li>
+                            <li><a href="http://localhost/market/admin/index.php?route=tool/log&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Error Logs</a>                </li>
+                          </ul>
+               </li>
+                  </ul>
+           </li>
+            <li id="menu-report">  <a class="parent"><i class="fa fa-bar-chart-o fw"></i> <span>Reports</span></a>             <ul>
+                    <li><a href="http://localhost/market/admin/index.php?route=report/report&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Reports</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=report/online&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Who's Online</a>            </li>
+                    <li><a href="http://localhost/market/admin/index.php?route=report/statistics&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Statistics</a>            </li>
+                  </ul>
+           </li>
+          </ul>
+      <div id="stats">
+        <ul>
+          <li>
+            <div>Orders Completed <span class="pull-right">0%</span></div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> <span class="sr-only">0%</span></div>
+            </div>
+          </li>
+          <li>
+            <div>Orders Processing <span class="pull-right">0%</span></div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> <span class="sr-only">0%</span></div>
+            </div>
+          </li>
+          <li>
+            <div>Other Statuses <span class="pull-right">0%</span></div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> <span class="sr-only">0%</span></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div id="content">
+      <div class="page-header">
+        <div class="container-fluid">
+          <h1>Dashboard</h1>
+          <ul class="breadcrumb">
+                    <li><a href="http://localhost/market/admin/index.php?route=common/dashboard&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Home</a></li>
+                    <li><a href="http://localhost/market/admin/index.php?route=common/dashboard&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">Dashboard</a></li>
+                  </ul>
+        </div>
+      </div>
+      <div class="container-fluid">
+                <div class="row">
+                                                                            <div class="col-lg-3 col-md-3 col-sm-6"><div class="tile tile-primary">
+      <div class="tile-heading">Total Orders <span class="pull-right">
+            0%</span></div>
+      <div class="tile-body"><i class="fa fa-shopping-cart"></i>
+        <h2 class="pull-right">0</h2>
+      </div>
+      <div class="tile-footer"><a href="http://localhost/market/admin/index.php?route=sale/order&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">View more...</a></div>
+    </div>
+    </div>
+                                                                            <div class="col-lg-3 col-md-3 col-sm-6"><div class="tile tile-primary">
+      <div class="tile-heading">Total Sales <span class="pull-right">
+            0%</span></div>
+      <div class="tile-body"><i class="fa fa-credit-card"></i>
+        <h2 class="pull-right">0</h2>
+      </div>
+      <div class="tile-footer"><a href="http://localhost/market/admin/index.php?route=sale/order&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">View more...</a></div>
+    </div>
+    </div>
+                                                                            <div class="col-lg-3 col-md-3 col-sm-6"><div class="tile tile-primary">
+      <div class="tile-heading">Total Customers <span class="pull-right">
+            0%</span></div>
+      <div class="tile-body"><i class="fa fa-user"></i>
+        <h2 class="pull-right">1</h2>
+      </div>
+      <div class="tile-footer"><a href="http://localhost/market/admin/index.php?route=customer/customer&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">View more...</a></div>
+    </div>
+    </div>
+                                                                            <div class="col-lg-3 col-md-3 col-sm-6"><div class="tile tile-primary">
+      <div class="tile-heading">People Online</div>
+      <div class="tile-body"><i class="fa fa-users"></i>
+        <h2 class="pull-right">0</h2>
+      </div>
+      <div class="tile-footer"><a href="http://localhost/market/admin/index.php?route=extension/customer/online&amp;user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H">View more...</a></div>
+    </div>
+    </div>
+              </div>
+            <div class="row">
+                                                                            <div class="col-lg-6 col-md-12 col-sm-12"><div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-globe"></i> World Map</h3>
+      </div>
+      <div class="panel-body">
+        <div id="vmap" style="width: 100%; height: 260px;"></div>
+      </div>
+    </div>
+    <link type="text/css" href="view/javascript/jquery/jqvmap/jqvmap.css" rel="stylesheet" media="screen" />
+    <script type="text/javascript" src="view/javascript/jquery/jqvmap/jquery.vmap.js"></script> 
+    <script type="text/javascript" src="view/javascript/jquery/jqvmap/maps/jquery.vmap.world.js"></script> 
+    <script type="text/javascript"><!--
+    $(document).ready(function() {
+        $.ajax({
+            url: 'index.php?route=extension/dashboard/map/map&user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H',
+            dataType: 'json',
+            success: function(json) {
+                data = [];
+                            
+                for (i in json) {
+                    data[i] = json[i]['total'];
+                }
+                        
+                $('#vmap').vectorMap({
+                    map: 'world_en',
+                    backgroundColor: '#FFFFFF',
+                    borderColor: '#FFFFFF',
+                    color: '#9FD5F1',
+                    hoverOpacity: 0.7,
+                    selectedColor: '#666666',
+                    enableZoom: true,
+                    showTooltip: true,
+                    values: data,
+                    normalizeFunction: 'polynomial',
+                    onLabelShow: function(event, label, code) {
+                        if (json[code]) {
+                            label.html('<strong>' + label.text() + '</strong><br />' + 'Orders ' + json[code]['total'] + '<br />' + 'Sales ' + json[code]['amount']);
+                        }
+                    }
+                });			
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });			
+    });
+    //--></script> </div>
+                                                                            <div class="col-lg-6 col-md-12 col-sm-12"><div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="pull-right"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-calendar"></i> <i class="caret"></i></a>
+          <ul id="range" class="dropdown-menu dropdown-menu-right">
+            <li><a href="day">Today</a></li>
+            <li><a href="week">Week</a></li>
+            <li class="active"><a href="month">Month</a></li>
+            <li><a href="year">Year</a></li>
+          </ul>
+        </div>
+        <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Sales Analytics</h3>
+      </div>
+      <div class="panel-body">
+        <div id="chart-sale" style="width: 100%; height: 260px;"></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="view/javascript/jquery/flot/jquery.flot.js"></script> 
+    <script type="text/javascript" src="view/javascript/jquery/flot/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript"><!--
+    $('#range a').on('click', function(e) {
+        e.preventDefault();
+        
+        $(this).parent().parent().find('li').removeClass('active');
+        
+        $(this).parent().addClass('active');
+        
+        $.ajax({
+            type: 'get',
+            url: 'index.php?route=extension/dashboard/chart/chart&user_token=sXHcj22nMk2WpbhQZsDG9ArAatxwf40H&range=' + $(this).attr('href'),
+            dataType: 'json',
+            success: function(json) {
+                if (typeof json['order'] == 'undefined') { return false; }
+                
+                var option = {	
+                    shadowSize: 0,
+                    colors: ['#9FD5F1', '#1065D2'],
+                    bars: { 
+                        show: true,
+                        fill: true,
+                        lineWidth: 1
+                    },
+                    grid: {
+                        backgroundColor: '#FFFFFF',
+                        hoverable: true
+                    },
+                    points: {
+                        show: false
+                    },
+                    xaxis: {
+                        show: true,
+                        ticks: json['xaxis']
+                    }
+                }
+                
+                $.plot('#chart-sale', [json['order'], json['customer']], option);	
+                        
+                $('#chart-sale').bind('plothover', function(event, pos, item) {
+                    $('.tooltip').remove();
+                  
+                    if (item) {
+                        $('<div id="tooltip" class="tooltip top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">' + item.datapoint[1].toFixed(2) + '</div></div>').prependTo('body');
+                        
+                        $('#tooltip').css({
+                            position: 'absolute',
+                            left: item.pageX - ($('#tooltip').outerWidth() / 2),
+                            top: item.pageY - $('#tooltip').outerHeight(),
+                            pointer: 'cusror'
+                        }).fadeIn('slow');	
+                        
+                        $('#chart-sale').css('cursor', 'pointer');		
+                      } else {
+                        $('#chart-sale').css('cursor', 'auto');
+                    }
+                });
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+               alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+    
+    $('#range .active a').trigger('click');
+    //-->
+    </script> </div>
+              </div>
+            <div class="row">
+                                                                            <div class="col-lg-4 col-md-12 col-sm-12"><div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-calendar"></i> Recent Activity</h3>
+      </div>
+      <ul class="list-group">
+            <li class="list-group-item text-center">No results!</li>
+          </ul>
+    </div></div>
+                                                                            <div class="col-lg-8 col-md-12 col-sm-12"><div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-shopping-cart"></i> Latest Orders</h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td class="text-right">Order ID</td>
+              <td>Customer</td>
+              <td>Status</td>
+              <td>Date Added</td>
+              <td class="text-right">Total</td>
+              <td class="text-right">Action</td>
+            </tr>
+          </thead>
+          <tbody>
+                    <tr>
+              <td class="text-center" colspan="6">No results!</td>
+            </tr>
+                  </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+              </div>
+          </div>
+    </div>
+{% endblock %}

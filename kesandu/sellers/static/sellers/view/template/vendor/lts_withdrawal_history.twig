@@ -1,0 +1,76 @@
+{{ header }} {{ column_left }}
+<div id="content">
+    <div class="page-header">
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_history }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <h4 style="margin-left: 20px;">Vendor Detail</h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>{{entry_vendor}}</td>
+                            <td>{{bank_info.account_holder}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{entry_acc}}</td>
+                            <td>{{bank_info.accountno}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{entry_ifsc}}</td>
+                            <td>{{bank_info.ifsc}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{entry_paypal}}</td>
+                            <td>{{bank_info.paypal}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{phone_no}}</td>
+                            <td>{{telephone}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive panel panel-default" style="overflow-x: hidden">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td class="text-center">{{entry_vendor_id}}</td>
+                        <td class="text-center">{{entry_vendor_name}}</td>
+                        <td class="text-center">{{entry_amount}}</td>
+                        <td class="text-center">{{column_status}}</td>
+                        <td class="text-center">{{payment_date}}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for withdrawal in withdrawal_info %}
+                    <tr id="{{withdrawal_list.vendor_id}}" data-withdrwal={{withdrawal_list| json_encode() }}>
+                        <td class="text-center" id="vendor_id">{{withdrawal.vendor_id}} </td>
+                        <td class="text-center">{{withdrawal.vendor_name}} </td>
+                        <td class="text-center">{{withdrawal.amount}}</td>
+                        {% if withdrawal.payment_processed==1 %}
+                        <td class="text-center">{{transection_status}}</td>
+                        {% endif %}
+                        <td class="text-center">{{withdrawal.payment_initiate_date}}</td>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+    </div>
+</div>
+{{ footer }}
+</div>
+{{footer}}

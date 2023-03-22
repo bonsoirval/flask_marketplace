@@ -10,7 +10,7 @@ with open(activate_this) as file_:
 
 sys.path.insert(0, '/var/www/kesandu/')
 
-from kesandu import create_app, db #, cli
+from kesandu import create_app, db, cli
 from kesandu.frontend.models import User #, Post
 
 application = create_app()

@@ -1,0 +1,86 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-socialicon').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+        <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        <button type="submit" form="form-tntsocialicon" formaction="{{ copy }}" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default"><i class="fa fa-copy"></i></button>
+        <button type="button" form="form-tntsocialicon" formaction="{{ delete }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-tntsocialicon').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div id="growls" class="default"></div>
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    
+      <div class="row">
+        
+        <div class="col-md-12 col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-list"></i>list</h3>
+            </div>
+            <div class="panel-body">
+              
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover tntsocialicon">
+                    <thead>
+                      <tr>
+                                       
+                        <td class="text-left">id</td>
+
+                        <td class="text-left">{% if sort == 'pd.tntnewsletter_email' %} <a href="{{ sort_tntnewsletter_email }}" class="{{ order|lower }}">email</a> {% else %} <a href="{{ sort_tntnewsletter_email }}">email</a> {% endif %}</td>
+
+
+                       
+
+                        <td class="text-left">date</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if list %}
+                      {% for data in list %}
+                        <tr>
+                                        
+                          <td class="text-left">{{ data.id }}</td>
+                          <td class="text-left">{{ data.email }}</td>
+                          <td class="text-left">{{ data.date }}</td>
+                          
+                        </tr>
+                      {% endfor %}
+                      {% else %}
+                    <tr>
+                      <td class="text-center" colspan="10">{{ text_no_results }}</td>
+                    </tr>
+                    {% endif %}
+                      </tbody>                  
+                  </table>
+                  
+                </div>
+              <div class="row">
+                <div class="col-sm-6 text-left">{{ pagination }}</div>
+                <div class="col-sm-6 text-right">{{ results }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{{ footer }} 

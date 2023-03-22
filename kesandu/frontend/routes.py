@@ -68,14 +68,7 @@ def fe_cart():
     db.session.add(cart)
     db.session.commit()
     
-    result = (ProductDescription.query
-    .filter_by(product_id = product_id).first())
-    # data = {
-    #     'name': result,
-    #     'product_id': product_id,
-    # }
-    # result = type(str(result))
-    return jsonify(result= f"{result}") # : {product_id} : {quantity} : {user_id}'  )
+    return jsonify(result= True) # f"{result}") # : {product_id} : {quantity} : {user_id}'  )
 
 
 # method to handle all insert operations

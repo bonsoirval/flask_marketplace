@@ -20,7 +20,8 @@ class Config(object):
     DB_NAME = 'kesandu_db'
     DB_PASSWORD ='!vfhIyH214js9Rf'
 
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or '!vfhIyH214js9Rfyou-will-never-guess'
+    
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'kesandu_db.db')
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':''@localhost/'+ DB_NAME 

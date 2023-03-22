@@ -1,0 +1,88 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button id="button-send" type="submit" form="vendor-mail" data-loading-text="{{ text_loading }}" data-toggle="tooltip" title="{{ button_send }}" class="btn btn-primary"><i class="fa fa-envelope"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-envelope"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" action="{{ action }}" method="post" id="vendor-mail">
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-to">{{ entry_to }}</label>
+            <div class="col-sm-10">
+              <select name="too_id" id="input-to" class="form-control">
+                {% if too %}
+                  {% for to in too %}
+                    {% if too_id == to.too_id %}
+                      <option value="{{ too_id }}" selected="selected">{{ to.name }}</option>
+                    {% else %}
+                         <option value="{{ to.too_id }}">{{ to.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+
+          
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-subject">{{ entry_subject }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="subject" value="{{ subject }}" placeholder="{{ entry_subject }}" id="input-subject" class="form-control" />
+               {% if error_subject %}
+              	<div class="text-danger">{{ error_subject }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-message">{{ entry_message }}</label>
+            <div class="col-sm-10">
+              <textarea name="message" placeholder="{{ entry_message }}" id="input-message" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ message }}</textarea>
+               {% if error_message %}
+              	<div class="text-danger">{{ error_message }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+          	<label class="col-sm-2 control-label">{{ entry_status }}</label>
+          	<div class="col-sm-10">
+          		<select name="status" class="form-control">
+          		{% if status %}
+          			<option value="1" selected="selected">{{ text_enabled }}</option>
+          			<option value="0">{{ text_disabled }}</option>
+          		{% else %}
+          			<option value="1">{{ text_enabled }}</option>
+          			<option value="0" selected="selected">{{ text_disabled }}</option>
+          		{% endif %}
+          		</select>
+          	</div>
+          	
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+{{ footer }}

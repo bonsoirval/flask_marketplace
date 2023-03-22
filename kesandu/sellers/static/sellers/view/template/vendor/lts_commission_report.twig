@@ -1,0 +1,63 @@
+{{ header }} {{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid"> 
+    <div class="panel panel-default"> 
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-money"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-commission">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+               <thead>
+                  <tr>
+                     <th><a href="{{ sort_name }}">{{ column_vendor_name }}</a></th>
+                     <th>{{ column_product_name }}</th>
+                     <th>{{ column_model }}</th>
+                     <th>{{ column_quantity }}</th>
+                     <th>{{ column_price }}</th>
+                     <th>{{ column_commission_type }}</th>
+                     <th>{{ column_commission }}</th>
+                     <th>{{ column_date_added }}</th>
+                     <th>{{ column_status }}</th>
+                     <th>{{ column_pay }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% if commissions %}
+                  {% for commission in commissions %}
+                    <tr>
+                      <td>{{ commission.vendor_name }}</td>
+                      <td>{{ commission.name }}</td>
+                      <td>{{ commission.model }}</td>
+                      <td>{{ commission.quantity }}</td>
+                      <td>{{ commission.price }}</td>
+                      <td>{{ commission.commission_type }}</td>
+                      <td>{{ commission.commission }}</td>
+                      <td>{{ commission.date_added }}</td>
+                      <td>{{ commission.status }}</td>
+                      <td><a href="{{ commission.pay }}" class="btn btn-primary"><i class="fa fa-paypal"></i></a></td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+              	<tr>{{ text_result }}</tr>
+                {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+{{ footer }}

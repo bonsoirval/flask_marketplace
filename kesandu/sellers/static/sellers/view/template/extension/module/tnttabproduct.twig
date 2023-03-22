@@ -1,0 +1,402 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+          <div class="col-sm-10">
+            <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+            {% if error_name %}
+            <div class="text-danger">{{ error_name }}</div>
+            {% endif %}
+          </div>
+        </div>   
+        <div class="form-group"> 
+          <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+          <div class="col-sm-10">
+            <select name="status" id="input-status" class="form-control">
+              {% if status %}
+              <option value="1" selected="selected">{{ text_enabled }}</option>
+              <option value="0">{{ text_disabled }}</option>
+              {% else %}
+              <option value="1">{{ text_enabled }}</option>
+              <option value="0" selected="selected">{{ text_disabled }}</option>
+              {% endif %}
+            </select>
+          </div>
+        </div>
+
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab-featured" data-toggle="tab">{{ text_feature }}</a></li>
+              <li><a href="#newproducttab" data-toggle="tab">{{ text_newproduct }}</a></li>
+              <li><a href="#bestproducttab" data-toggle="tab">{{ text_bestproduct }}</a></li>
+              <li><a href="#specialproducttab" data-toggle="tab">{{ text_specialproduct }}</a></li>
+             <li><a href="#customtexttap" data-toggle="tab">{{ text_customtext }}</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab-featured">
+                  <div class="form-group"> 
+                    <label class="col-sm-4 control-label" for="input-status">{{ entry_status }}</label>
+                    <div class="col-sm-8">
+                      <select name="productfeature[status]" id="input-status" class="form-control">
+                        {% if productfeature.status %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label" for="input-productfeature">{{ parentsetting_image }}</label>
+                      <div class="col-sm-8">
+                        <a href="" id="thumb-image1" data-toggle="image" class="thumb-thumbnail">
+                          <img src="{{ productfeature_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" />
+                        </a>
+                          <input type="hidden" name="productfeature[image]" value="{{ productfeature.image }}" id="input-productfeature" />
+                       </div>
+                  </div>
+
+                  <div class="form-group required">
+                    <label class="col-sm-4 control-label" for="input-productfeatureadminselectproduct">{{ text_categoryids }}</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="product_name" value="" placeholder="{{ entry_product }}" id="input-product" class="form-control" />
+                      <div id="featured-product" class="well well-sm" style="height: 150px; overflow: auto;">
+                        {% for product in products %}
+                        <div id="featured-product{{ product.product_id }}"><i class="fa fa-minus-circle"></i>{{ product.name }}
+                          <input type="hidden" name="productfeature[adminselectproduct][]" value="{{ product.product_id }}" />
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                
+                
+                  <ul class="nav nav-tabs" id="language_1">
+                    {% for language in languages %}
+                    <li><a href="#language_1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                <div class="tab-content">{% for language in languages %}
+                  <div class="tab-pane" id="language_1{{ language.language_id }}">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ text_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productfeature[parenttext][{{ language.language_id }}][tabheading]" 
+                          value="{{ productfeature.parenttext[language.language_id] ? productfeature.parenttext[language.language_id].tabheading }}" placeholder="{{ text_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ parentsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productfeature[parenttext][{{ language.language_id }}][title]" 
+                          value="{{ productfeature.parenttext[language.language_id] ? productfeature.parenttext[language.language_id].title }}" placeholder="{{ parentsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group hidden">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ childsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productfeature[parenttext][{{ language.language_id }}][subtitle]" 
+                          value="{{ productfeature.parenttext[language.language_id] ? productfeature.parenttext[language.language_id].subtitle }}" placeholder="{{ childsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="tab-pane" id="newproducttab">
+                  <div class="form-group"> 
+                    <label class="col-sm-4 control-label" for="input-status">{{ entry_status }}</label>
+                    <div class="col-sm-8">
+                      <select name="productnew[status]" id="input-status" class="form-control">
+                        {% if productnew.status %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label" for="input-productnew">{{ parentsetting_image }}</label>
+                      <div class="col-sm-8">
+                        <a href="" id="thumb-image2" data-toggle="image" class="thumb-thumbnail">
+                          <img src="{{ productnew_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" />
+                        </a>
+                          <input type="hidden" name="productnew[image]" value="{{ productnew.image }}" id="input-productnew" />
+                       </div>
+                  </div>
+                  <ul class="nav nav-tabs" id="language_2">
+                    {% for language in languages %}
+                    <li><a href="#language_2{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                <div class="tab-content">{% for language in languages %}
+                  <div class="tab-pane" id="language_2{{ language.language_id }}">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ text_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productnew[parenttext][{{ language.language_id }}][tabheading]" 
+                          value="{{ productnew.parenttext[language.language_id] ? productnew.parenttext[language.language_id].tabheading }}" placeholder="{{ text_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ parentsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productnew[parenttext][{{ language.language_id }}][title]" 
+                          value="{{ productnew.parenttext[language.language_id] ? productnew.parenttext[language.language_id].title }}" placeholder="{{ parentsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group hidden">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ childsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productnew[parenttext][{{ language.language_id }}][subtitle]" 
+                          value="{{ productnew.parenttext[language.language_id] ? productnew.parenttext[language.language_id].subtitle }}" placeholder="{{ childsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+
+                      <div class="form-group hidden">
+                        <label class="col-sm-2 control-label" for="input-productnew{{ language.language_id }}">{{ parentsetting_image }}</label>
+                        <div class="col-sm-10">
+                          <a href="" id="productnew{{ language.language_id }}" data-toggle="image" class="img-thumbnail">
+                            <img src="{{ newproductimage[language.language_id] }}" alt="" title="" data-placeholder="{{ placeholder }}" />
+                          </a>
+                          <input type="hidden" name="productnew[parenttext][{{ language.language_id }}][image]" value="{{ productnew.parenttext[language.language_id] ? productnew.parenttext[language.language_id].image }}" id="input-productnew{{ language.language_id }}" />
+                        </div>
+                      </div> 
+                      
+                  </div>
+                  {% endfor %}
+                </div>
+
+              </div>
+              <div class="tab-pane" id="bestproducttab">
+                  <div class="form-group"> 
+                    <label class="col-sm-4 control-label" for="input-status">{{ entry_status }}</label>
+                    <div class="col-sm-8">
+                      <select name="productbest[status]" id="input-status" class="form-control">
+                        {% if productbest.status %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label" for="input-productbest">{{ parentsetting_image }}</label>
+                      <div class="col-sm-8">
+                        <a href="" id="thumb-image3" data-toggle="image" class="thumb-thumbnail">
+                          <img src="{{ productbest_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" />
+                        </a>
+                          <input type="hidden" name="productbest[image]" value="{{ productbest.image }}" id="input-productbest" />
+                       </div>
+                  </div>
+                  <ul class="nav nav-tabs" id="language_3">
+                    {% for language in languages %}
+                    <li><a href="#language_3{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+
+                <div class="tab-content">{% for language in languages %}
+                  <div class="tab-pane" id="language_3{{ language.language_id }}">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ text_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productbest[parenttext][{{ language.language_id }}][tabheading]" 
+                          value="{{ productbest.parenttext[language.language_id] ? productbest.parenttext[language.language_id].tabheading }}" placeholder="{{ text_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                       <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ parentsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productbest[parenttext][{{ language.language_id }}][title]" 
+                          value="{{ productbest.parenttext[language.language_id] ? productbest.parenttext[language.language_id].title }}" placeholder="{{ parentsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group hidden">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ childsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productbest[parenttext][{{ language.language_id }}][subtitle]" 
+                          value="{{ productbest.parenttext[language.language_id] ? productbest.parenttext[language.language_id].subtitle }}" placeholder="{{ childsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="tab-pane" id="specialproducttab">
+                  <div class="form-group"> 
+                    <label class="col-sm-4 control-label" for="input-status">{{ entry_status }}</label>
+                    <div class="col-sm-8">
+                      <select name="productspecial[status]" id="input-status" class="form-control">
+                        {% if productspecial.status %}
+                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                        <option value="0">{{ text_disabled }}</option>
+                        {% else %}
+                        <option value="1">{{ text_enabled }}</option>
+                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label" for="input-productspecial">{{ parentsetting_image }}</label>
+                      <div class="col-sm-8">
+                        <a href="" id="thumb-image4" data-toggle="image" class="thumb-thumbnail">
+                          <img src="{{ productspecial_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" />
+                        </a>
+                          <input type="hidden" name="productspecial[image]" value="{{ productspecial.image }}" id="input-productspecial" />
+                       </div>
+                  </div>
+                
+                <ul class="nav nav-tabs" id="language_4">
+                  {% for language in languages %}
+                  <li><a href="#language_4{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                  {% endfor %}
+                </ul>
+                <div class="tab-content">{% for language in languages %}
+                  <div class="tab-pane" id="language_4{{ language.language_id }}">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ text_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productspecial[parenttext][{{ language.language_id }}][tabheading]" value="{{ productspecial.parenttext[language.language_id] ? productspecial.parenttext[language.language_id].tabheading }}" placeholder="{{ text_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ parentsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productspecial[parenttext][{{ language.language_id }}][title]" value="{{ productspecial.parenttext[language.language_id] ? productspecial.parenttext[language.language_id].title }}" placeholder="{{ parentsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group hidden">
+                        <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ childsetting_title }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="productspecial[parenttext][{{ language.language_id }}][subtitle]" value="{{ productspecial.parenttext[language.language_id] ? productspecial.parenttext[language.language_id].subtitle }}" placeholder="{{ childsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                        </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+
+              </div>
+                <div class="tab-pane" id="customtexttap">
+                    <div class="form-group"> 
+                      <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                      <div class="col-sm-10">
+                        <select name="customtext[status]" id="input-status" class="form-control">
+                          {% if customtext.status %}
+                          <option value="1" selected="selected">{{ text_enabled }}</option>
+                          <option value="0">{{ text_disabled }}</option>
+                          {% else %}
+                          <option value="1">{{ text_enabled }}</option>
+                          <option value="0" selected="selected">{{ text_disabled }}</option>
+                          {% endif %}
+                        </select>
+                        <input type="hidden" name="customtext[tab_name_id]" value="tmrfspecialproducttab-product"  class="form-control" />    
+                        <input type="hidden" name="customtext[tab_name_class_slider]" value="mrfspecialproducttab-product"  class="form-control" />    
+                        <input type="hidden" name="customtext[tab_name_class_pagination]" value="mrfspecialproducttab"  class="form-control" />
+                      
+                      </div>
+                    </div>
+                  
+                    <ul class="nav nav-tabs" id="language_5">
+                      {% for language in languages %}
+                      <li><a href="#language_5{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  <div class="tab-content">{% for language in languages %}
+                    <div class="tab-pane" id="language_5{{ language.language_id }}">
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ parentsetting_title }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="customtext[parenttext][{{ language.language_id }}][tabproductheading]" value="{{ customtext.parenttext[language.language_id] ? customtext.parenttext[language.language_id].tabproductheading }}" placeholder="{{ parentsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                          </div>
+                        </div>
+                    
+                        
+                        <div class="form-group hidden">
+                          <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ childsetting_title }}</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="customtext[parenttext][{{ language.language_id }}][subtitle]" value="{{ customtext.parenttext[language.language_id] ? customtext.parenttext[language.language_id].subtitle }}" placeholder="{{ childsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                          </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+  <script type="text/javascript"><!--
+$('#language_1 a:first').tab('show');
+$('#language_2 a:first').tab('show');
+$('#language_3 a:first').tab('show');
+$('#language_4 a:first').tab('show');
+$('#language_5 a:first').tab('show');
+$('#language_6 a:first').tab('show');
+$('#option a:first').tab('show');
+
+$('input[name=\'product_name\']').autocomplete({
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['product_id']
+          }
+        }));
+      }
+    });
+  },
+  select: function(item) {
+    $('input[name=\'product_name\']').val('');
+    
+    $('#featured-product' + item['value']).remove();
+    
+    $('#featured-product').append('<div id="featured-product' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="productfeature[adminselectproduct][]" value="' + item['value'] + '" /></div>');  
+  }
+});
+  
+$('#featured-product').delegate('.fa-minus-circle', 'click', function() {
+  $(this).parent().remove();
+});
+//--></script>
+{{ footer }}

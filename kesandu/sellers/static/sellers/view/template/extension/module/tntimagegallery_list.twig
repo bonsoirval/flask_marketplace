@@ -1,0 +1,273 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        
+          <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-imagegallery').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+          <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+          <button type="submit" form="form-imagegallery" formaction="{{ copy }}" data-toggle="tooltip" title="{{ button_copy }}" class="btn btn-default"><i class="fa fa-copy"></i></button>
+
+        <button type="button" form="form-imagegallery" formaction="{{ delete }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-imagegallery').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div id="growls" class="default"></div>
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-imagegallery" class="form-horizontal">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_setting }}</h3>
+        </div>
+        <div class="panel-body">
+         
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+              <div class="col-sm-10">
+                <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+                {% if error_name %}
+                <div class="text-danger">{{ error_name }}</div>
+                {% endif %}
+              </div>
+            </div>
+        
+          <div class="form-group"> 
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+                {% if status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+           <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+                <ul class="nav nav-tabs" id="language">
+                  {% for language in languages %}
+                  <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              <div class="tab-content">{% for language in languages %}
+                <div class="tab-pane" id="language{{ language.language_id }}">
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label" for="input-title{{ language.language_id }}">{{ parentsetting_title }}</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="tntimagegallery_parent[{{ language.language_id }}][title]" value="{{ tntimagegallery_parent[language.language_id] ? tntimagegallery_parent[language.language_id].title }}" placeholder="{{ parentsetting_title }}" id="input-name{{ language.language_id }}" class="form-control" />
+                      </div>
+                    </div>
+
+                </div>
+                {% endfor %}</div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="form-group"> 
+            <label class="col-sm-2 control-label" for="input-statuss"></label>
+            <div class="col-sm-10">       
+              <button type="submit" form="form-imagegallery" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+            </div>
+          </div>
+      </div>
+    </form>
+      <div class="row">
+        <div id="filter-imagegallery" class="col-md-3 col-md-push-9 col-sm-12 hidden-sm hidden-xs">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="control-label" for="input-name">{{ parentsetting_title }}</label>
+                <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ parentsetting_title }}" id="input-name" class="form-control" />
+              </div>
+              
+              <div class="form-group">
+                <label class="control-label" for="input-status">{{ column_status }}</label>
+                <select name="filter_status" id="input-status" class="form-control">
+                  <option value=""></option>
+                  {% if filter_status == '1' %}
+                  <option value="1" selected="selected">{{ text_enabled }}</option>
+                  {% else %}
+                  <option value="1">{{ text_enabled }}</option>
+                  {% endif %}
+                  {% if filter_status == '0' %}
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                      {% else %}
+                    <option value="0">{{ text_disabled }}</option>
+                  {% endif %}                    
+                </select>
+              </div>
+              <div class="form-group text-right">
+                <button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-md-pull-3 col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+            </div>
+            <div class="panel-body">
+              <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-imagegallery">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover tntimagegallery">
+                    <thead>
+                      <tr>
+                       
+                        <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                         <td class="text-center">{{ column_image }}</td> 
+
+                      <td class="text-left">{{ column_title }}</td>
+
+                        <td class="text-left">
+                          {% if sort == 'pd.tntimagegallerychild_name' %}
+                            <a href="{{ sort_tntimagegallerychild_name }}" class="{{ order|lower }}">{{ parentsetting_title }}</a>
+                          {% else %} 
+                            <a href="{{ sort_tntimagegallerychild_name }}" >{{ parentsetting_title }}</a> 
+                          {% endif %}</td>
+
+
+                        <td class="text-left">{% if sort == 'p.tntimagegallerymain_status' %} <a href="{{ sort_tntimagegallerymain_status }}" class="{{ order|lower }}">{{ column_status }}</a> {% else %} <a href="{{ sort_tntimagegallerymain_status }}">{{ column_status }}</a> {% endif %}</td>
+
+                        <td class="text-left">{{ column_action }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if imagegallerys %}
+                      {% for imagegallery in imagegallerys %}
+                        <tr id="data_{{ imagegallery.id }}">
+                          <td class="text-center">{% if imagegallery.id in selected %}
+                            <input type="checkbox" name="selected[]" value="{{ imagegallery.id }}" checked="checked" />
+                            {% else %}
+                            <input type="checkbox" name="selected[]" value="{{ imagegallery.id }}" />
+                            {% endif %}</td>
+
+                           <td class="text-center">{% if imagegallery.image %} <img src="{{ imagegallery.image }}" alt="{{ imagegallery.title }}" class="img-thumbnail" /> {% else %} <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span> {% endif %}</td>
+                          
+                          <td class="text-left">{{ imagegallery.title }}</td>
+
+                          <td class="text-left">{{ imagegallery.link }}</td>
+                          
+                          <td class="text-left">{{ imagegallery.status }}</td>
+                          <td class="text-right">
+                            
+                              <a href="{{ imagegallery.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                            
+                            </td>
+
+                        </tr>
+                      {% endfor %}
+                      {% else %}
+                    <tr>
+                      <td class="text-center" colspan="10">{{ text_no_results }}</td>
+                    </tr>
+                    {% endif %}
+                      </tbody>                  
+                  </table>
+                </div>
+              </form>
+              <div class="row">
+                <div class="col-sm-6 text-left">{{ pagination }}</div>
+                <div class="col-sm-6 text-right">{{ results }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.ui.core.min.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.ui.widget.min.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.ui.mouse.min.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery.sortable.js"></script> 
+  <script type="text/javascript" src="view/javascript/adminthemejs/jquery-ui.js"></script> 
+
+ 
+<script type="text/javascript"><!--
+
+$('#language a:first').tab('show');
+$(document).ready(function(){
+  function removeTags(){
+      setTimeout(function() {
+          $(".tntimagegallery-position-update").remove();
+        }, 3000);
+    }
+  var urll = 'index.php?route=extension/module/tntimagegallery/sortdata&user_token={{ user_token }}&action=update&';
+  var obj  = $(document).find('body');
+  $(".tntimagegallery tbody").sortable({
+      opacity: 0.6,
+      cursor: 'move',
+      update: function() {
+          var order = $(this).sortable("serialize");
+          var qq = urll + '' + order;
+          console.log(qq);
+          $.post(qq, order, function(data) {
+            console.log(data);
+              var arr_data = data.split('##');
+
+              var result = arr_data[0];
+
+              var notic = 'Position is Updated.';
+              if (result == 'right') {
+                  var tags = '';
+
+                  tags += '<div id="growls" class="alert alert-success alert-dismissible default tntimagegallery-position-update"><i class="fa fa-check-circle"></i> '+ notic +'<button type="button" class="close" data-dismiss="alert">&times;</button>';
+                  tags += '</div>';
+
+                  obj.find('#growls').html(tags);
+                  removeTags();
+              }
+          });
+      }
+  });
+});
+
+$('#button-filter').on('click', function() {
+    var url = '';
+
+    var filter_name = $('input[name=\'filter_name\']').val();
+
+    if (filter_name) {
+        url += '&filter_name=' + encodeURIComponent(filter_name);
+    }
+
+    var filter_status = $('select[name=\'filter_status\']').val();
+
+    if (filter_status !== '') {
+        url += '&filter_status=' + encodeURIComponent(filter_status);
+    }
+
+    location = 'index.php?route=extension/module/tntimagegallery&user_token={{ user_token }}' + url;
+});
+
+$('button[form=\'form-imagegallery\']').on('click', function(e) {
+    $('#form-imagegallery').attr('action', $(this).attr('formaction'));
+});
+
+//--></script></div>
+{{ footer }} 

@@ -1,0 +1,33 @@
+<h1>Categories With Kids</h1>
+
+{% extends "sellers/s_layout.html" %}
+
+{% block body %}
+    <h1>Sign In</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.product_name.label }}<br>
+            {{ form.product_name(size=32) }}
+        </p>
+        <p>
+            {{ form.product_description.label }}<br>
+            {{ form.product_description(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
+
+
+
+<!-- { % for i in data['parents'] % }
+    Parent Name : { { i.parent_name } } <br/>
+    Parent Sort Order : { { i.sort_order } } <br/>
+
+    { % for j in data['children'] % }
+        { % if i.parent_id == j.parent_id % }
+            Child Name : { { i.parent_name } } > { { j.child_name } } <br/>
+            Child Sort Order : { { j.sort_order } } <br/>
+        {# % endif % #}
+    {# % endfor % #}
+{# % endfor % #} -->
