@@ -1,24 +1,39 @@
 <h1>Categories With Kids</h1>
+<!doctype html>
+<html>
+  <head>
+    <title>File Upload</title>
+  </head>
+  <body>
+    <h1>User : {{current_user.id}} File Upload</h1>
+    <form method="POST" action="" enctype="multipart/form-data">
+      <p><input type="file" name="file"></p>
+      <p><input type="submit" value="Submit"></p>
+    </form>
+  </body>
+</html>
 
-{% extends "sellers/s_layout.html" %}
 
-{% block body %}
+
+{# % extends "sellers/s_layout.html" %#}
+<!--
+{#% block body %#}
     <h1>Sign In</h1>
     <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
+        {#{ form.hidden_tag() }#}
         <p>
-            {{ form.product_name.label }}<br>
-            {{ form.product_name(size=32) }}
+            {#{ form.product_name.label }#}<br>
+            {#{ form.product_name(size=32) }#}
         </p>
         <p>
-            {{ form.product_description.label }}<br>
-            {{ form.product_description(size=32) }}
+            {#{ form.product_description.label }#}<br>
+            {#{ form.product_description(size=32) }#}
         </p>
-        <p>{{ form.submit() }}</p>
+        <p>{#{ form.submit() }#}</p>
     </form>
-{% endblock %}
+{#% endblock %#}
 
-
+-->
 
 <!-- { % for i in data['parents'] % }
     Parent Name : { { i.parent_name } } <br/>

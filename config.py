@@ -44,3 +44,10 @@ class Config(object):
     APP_NAME = 'Kesandu'
     EXPLAIN_TEMPLATE_LOADING = True
     
+    # File request / upload size settings
+    MAX_CONTENT_LENGTH = 1024 * 1024 # 1 MB
+    UPLOAD_EXTENSIONS = ['.jpg', '.png', 'jpeg']
+    UPLOAD_PATH = 'uploads/'
+    SELLERS_PRODUCT = 'kesandu/sellers/static/sellers/images/uploads/products/'
+    
+    

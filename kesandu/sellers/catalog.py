@@ -2,13 +2,39 @@ import pandas as pd
 from kesandu import db
 from flask_login import current_user
 from kesandu.sellers import bp
-from flask import render_template, request
+from flask import render_template, request, current_app, abort, redirect, url_for
 from flask_login import login_required
 from sqlalchemy import text, select, or_, and_, not_, join 
 from kesandu.frontend.models import Product, ProductDescription
-from kesandu.sellers.forms import AddProductForm
+from kesandu.sellers.forms import AddProductForm, TestFileUpload
+from werkzeug.utils import secure_filename
+import imghdr
+import os
 # from kesandu.sellers.models import Categories
 
+
+def validate_image(stream):
+    header = stream.read(512)
+    stream.seek(0)
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return '.'+(format if format != 'jpeg' else 'jpg')
+
+def upload_file(success_page="s_add_product"):
+    uploaded_file = request.files['file']
+    uploaded_file.filename = os.path.splitext(uploaded_file.filename)[0] + "_seller_" \
+        + str(current_user.id) + os.path.splitext(uploaded_file.filename)[1]
+    
+    filename = secure_filename(uploaded_file.filename)
+    if uploaded_file.filename != "":
+        file_ext = os.path.splitext(uploaded_file.filename)[1]
+        if file_ext not in current_app.config['UPLOAD_EXTENSIONS'] or file_ext != validate_image(uploaded_file.stream):
+            abort(400)
+        saved_file = os.path.join(current_app.config['SELLERS_PRODUCT'], filename)
+        uploaded_file.save(saved_file) 
+        return saved_file
+    return f"File Not Saved", 400 # redirect(url_for(success_page))
 
 @bp.route('/sellers/catalog/view_categories', methods=['GET', 'POST'])
 @login_required
@@ -49,20 +75,25 @@ def s_edit_product(product_id):
     return product_id
 
 @bp.route('/sellers/catalog/add_product', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def s_add_product():
     form = AddProductForm(request.form)
-    from kesandu.sellers.forms import FakeLoginForm
-    
-    # form = FakeLoginForm()
+   
+    # upload_file(page='sellerssuccess_.s_add_product')
+   
     
     if form.validate_on_submit(): 
-        """NOTE: 
-        shipping : {form.shipping.data} <br/> comes immediately after stock_status_id
-        weight_class_id : {form.weight_class_id.data} <br/>  just below weight
-        weight : {form.weight.data} <br/>  just below length_class_id
-        sort_order : {form.sort_order.data} just below status <br/> 
-        """ 
+        # """NOTE: 
+        # shipping : {form.shipping.data} <br/> comes immediately after stock_status_id
+        # weight_class_id : {form.weight_class_id.data} <br/>  just below weight
+        # weight : {form.weight.data} <br/>  just below length_class_id
+        # sort_order : {form.sort_order.data} just below status <br/> 
+        # """ 
+        # """ Create Product and ProductDescription objects"""
+        # product = Product()
+        # product_description = ProductDescription()
+        
+        
         return f"Product Name : {form.product_name.data} <br/> \
             Product Description : {form.product_description.data} <br/> \
             Product Meta Tag : {form.meta_tag_title.data} <br/> \
@@ -98,8 +129,8 @@ def s_add_product():
             filters : {form.filters.data} <br/> \
             stores : {form.stores.data} <br/> \
             downloads : {form.downloads.data} <br/> \
-            related : {form.related.data} <br/> "
-            # image : {form.images.data} <br/>\
+            related : {form.related.data} <br/>\
+            image : {upload_file(success_page='sellerssuccess_.s_add_product')} <br/>"
     
     # if form.validate_on_submit():
     #     return'Not valid product'
@@ -111,6 +142,8 @@ def s_add_product():
         'title': 'Add Product',
         'form': form
     }
+    
+    
     # return render_template('dummy/dummy.html', data=data, form=form)
     return render_template('sellers/catalog/add_product.html', data=data)
 

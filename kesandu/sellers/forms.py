@@ -5,6 +5,9 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from kesandu.sellers.models import Seller
 
 
+class TestFileUpload(FlaskForm):
+    file = FileField('file')
+    submit = SubmitField('submit')
 
 class FakeLoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -50,7 +53,7 @@ class AddProductForm(FlaskForm):
     stores = StringField('Store [Ajax filled]') # , value='default')
     downloads = StringField('Download')
     related = StringField('Related Products [ajax filled]')
-    # image = FileField("photo", validators=[FileRequired(), FileAllowed(['jpg','jpeg','png'], 'Images Only Allowed')])
+    # image = FileField("photo", validators=[FileRequired()]) #, FileAllowed(['jpg','jpeg','png'], 'Images Only Allowed')])
     
     submit = SubmitField('Add Product')                        
             
