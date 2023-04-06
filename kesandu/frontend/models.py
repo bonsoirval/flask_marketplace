@@ -8,11 +8,17 @@ import jwt
 from kesandu import db, login
 from sqlalchemy import Column, ForeignKey
 from flask_authorize import RestrictionsMixin, AllowancesMixin
-from sqlalchemy.dialects.mysql import DATE,DECIMAL, SMALLINT, FLOAT, TEXT,INTEGER, VARCHAR, FLOAT, DECIMAL, CHAR, DOUBLE, ENUM,   DATETIME
+from sqlalchemy.dialects.mysql import DATE, SMALLINT, FLOAT, TEXT,INTEGER, VARCHAR, FLOAT, CHAR, DOUBLE, ENUM,   DATETIME
 from kesandu.models import UserGroup, UserRole
 
 
-
+class Manufacturer(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+    sort_order  = db.Column(db.String(255), nullable=False)
+    
+    
 class User(db.Model, UserMixin):
     __tablename__='users'
 
@@ -98,6 +104,12 @@ class Role(db.Model, AllowancesMixin):
 #     date_added = Column(db.DateTime, nullable=False)
    
 
+class ProductToCategory(db.Model):
+    id = Column(INTEGER(11), primary_key=True, nullable=False)
+    product_id = Column(INTEGER(11), nullable = False)
+    category_id = Column(INTEGER(11), nullable  = False)
+ 
+
 class CustomerActivity(db.Model):
     id = Column(INTEGER(11), primary_key=True, nullable=False)
     customer_id = Column(INTEGER(11), nullable=False)
@@ -112,7 +124,7 @@ class CustomerAffiliate(db.Model):
     company = Column(VARCHAR(40), nullable=False)
     website = Column(VARCHAR(255), nullable= False)
     tracking = Column(VARCHAR(64), nullable= False)
-    commission = Column(DECIMAL(4,2), nullable = False, default = 0.0)
+    commission = Column(db.String(4), nullable = False, default = 0.0)
     tax = Column(VARCHAR(64), nullable= False)
     payment = Column(VARCHAR(6), nullable= False)
     cheque = Column(VARCHAR(100), nullable= False)
@@ -192,7 +204,7 @@ class CustomerTransaction(db.Model):
     customer_id  = Column(INTEGER(11), nullable= False)
     order_id  = Column(INTEGER(11), nullable= False)
     description  = Column(TEXT, nullable = False)
-    amount = Column(DECIMAL(15,4), nullable= False)
+    amount = Column(db.String(15), nullable= False)
     date_added  = Column(db.DateTime, nullable = False)
 
 
@@ -301,16 +313,16 @@ class Order (db.Model):
   shipping_method  = Column(VARCHAR(128), nullable = False)
   shipping_code  = Column(VARCHAR(128), nullable = False)
   comment = Column(TEXT, nullable = False)
-  total  = Column(DECIMAL(15,4), nullable = False, default = 0.0000)
+  total  = Column(db.String(15), nullable = False, default = 0.0000)
   order_status_id  = Column(INTEGER(11), nullable = False, default = 0)
   affiliate_id  = Column(INTEGER(11), nullable = False)
-  commission  = Column(DECIMAL(15,4), nullable = False)
+  commission  = Column(db.String(15), nullable = False)
   marketing_id  = Column(INTEGER(11), nullable = False)
   tracking  = Column(VARCHAR(64), nullable = False)
   language_id  = Column(INTEGER(11), nullable = False)
   currency_id  = Column(INTEGER(11), nullable = False)
   currency_code  = Column(VARCHAR(3), nullable = False)
-  currency_value  = Column(DECIMAL(15,8), nullable = False, default = 1.00000000)
+  currency_value  = Column(db.String(15), nullable = False, default = 1.00000000)
   ip  = Column(VARCHAR(40), nullable = False)
   forwarded_ip  = Column(VARCHAR(40), nullable = False)
   user_agent  = Column(VARCHAR(255), nullable = False)
@@ -346,9 +358,9 @@ class OrderProduct(db.Model):
     name = Column(VARCHAR(255), nullable = False)
     model = Column(VARCHAR(64), nullable = False)
     quantity  = Column(INTEGER(4), nullable = False)
-    price  = Column(DECIMAL(15,4), nullable = False, default = 0.0000)
-    total  = Column(DECIMAL(15,4), nullable = False, default = 0.0000)
-    tax  = Column(DECIMAL(15,4), nullable = False, default = 0.0000)
+    price  = Column(db.String(15), nullable = False, default = 0.0000)
+    total  = Column(db.String(15), nullable = False, default = 0.0000)
+    tax  = Column(db.String(15), nullable = False, default = 0.0000)
     reward  = Column(INTEGER(8), nullable = False)
 
 
@@ -365,12 +377,12 @@ class OrderRecurring (db.Model):
     recurring_frequency  = Column(VARCHAR(25), nullable = False)
     recurring_cycle = Column(SMALLINT(6), nullable = False)
     recurring_duration = Column(SMALLINT(6), nullable = False)
-    recurring_price = Column(DECIMAL(10,4), nullable = False)
+    recurring_price = Column(db.String(10), nullable = False)
     trial = Column(INTEGER(1), nullable = False)
     trial_frequency  = Column(VARCHAR(25), nullable = False)
     trial_cycle = Column(SMALLINT(6), nullable = False)
     trial_duration = Column(SMALLINT(6), nullable = False)
-    trial_price = Column(DECIMAL(4,4), nullable = False)
+    trial_price = Column(db.String(4), nullable = False)
     status = Column(INTEGER(4), nullable = False)
     date_added = Column(db.DateTime,default=datetime.utcnow, nullable = False)
 
@@ -380,7 +392,7 @@ class OrderRecurringTransaction(db.Model):
     order_recurring_id  = Column(INTEGER(11), nullable = False)
     reference  = Column(VARCHAR(255), nullable = False)
     type  = Column(VARCHAR(255), nullable = False)
-    amount = Column(DECIMAL(10,4), nullable = False)
+    amount = Column(db.String(10), nullable = False)
     date_added = Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
 
@@ -423,27 +435,27 @@ class Product(db.Model):
     seller_id = Column(INTEGER(11), db.ForeignKey('sellers.id'), nullable=False)
     # describe= db.relationship('ProductDescription', backref='describe', lazy=True)
     model = Column(VARCHAR(64), nullable = False)
-    sku = Column(VARCHAR(64), nullable = False)
-    upc = Column(VARCHAR(12), nullable = False)
-    ean = Column(VARCHAR(14), nullable = False)
-    jan = Column(VARCHAR(13), nullable = False)
-    isbn = Column(VARCHAR(17), nullable = False)
-    mpn = Column(VARCHAR(64), nullable = False)
-    location = Column(VARCHAR(128), nullable = False)
+    sku = Column(VARCHAR(64), nullable = True)
+    upc = Column(VARCHAR(12), nullable = True)
+    ean = Column(VARCHAR(14), nullable = True)
+    jan = Column(VARCHAR(13), nullable = True)
+    isbn = Column(VARCHAR(17), nullable = True)
+    mpn = Column(VARCHAR(64), nullable = True)
+    location = Column(VARCHAR(128), nullable = False, default = 0)
     quantity  = Column(INTEGER(4), nullable = False, default = 0)
     stock_status_id  = Column(INTEGER(11), nullable = False)
-    image = Column(VARCHAR(255), nullable= True)
-    manufacturer_id  = Column(INTEGER(11), nullable = False)
+    image = Column(VARCHAR(255), nullable = False)
+    manufacturer_id  = Column(INTEGER(11), nullable = True)
     shipping  = Column(INTEGER(1), nullable = False, default = 1)
-    price  = Column(DECIMAL(15,4), nullable = False, default = 0.0000)
+    price  = Column(db.String(15), nullable = False, default = 0.0000)
     points  = Column(INTEGER(8), nullable = False, default = 0)
     tax_class_id  = Column(INTEGER(11), nullable = False)
     date_available = Column(DATE, nullable = False, default = 0000-00-00)
-    weight  = Column(DECIMAL(15,8), nullable = False, default = 0.00000000)
+    weight  = Column(db.String(15), nullable = False, default = 0.00000000)
     weight_class_id  = Column(INTEGER(11), nullable = False, default = 0)
-    length  = Column(DECIMAL(15,8), nullable = False, default = 0.00000000)
-    width  = Column(DECIMAL(15,8), nullable = False, default = 0.00000000)
-    height  = Column(DECIMAL(15,8), nullable = False, default = 0.00000000)
+    length  = Column(db.String(15), nullable = False, default = 0.00000000)
+    width  = Column(db.String(15), nullable = False, default = 0.00000000)
+    height  = Column(db.String(15), nullable = False, default = 0.00000000)
     length_class_id  = Column(INTEGER(11), nullable = False, default = 0)
     subtract  = Column(INTEGER(1), nullable = False, default = 1)
     minimum  = Column(INTEGER(11), nullable = False, default = 1)
@@ -539,7 +551,7 @@ class Customer(db.Model):
 #     company = Column(VARCHAR(40), nullable=False)
 #     website = Column(VARCHAR(255), nullable= False)
 #     tracking = Column(VARCHAR(64), nullable= False)
-#     commission = Column(DECIMAL(4,2), nullable = False, default = 0.0)
+#     commission = Column(db.String(4), nullable = False, default = 0.0)
 #     tax = Column(VARCHAR(64), nullable= False)
 #     payment = Column(VARCHAR(6), nullable= False)
 #     cheque = Column(VARCHAR(100), nullable= False)
@@ -619,7 +631,7 @@ class Customer(db.Model):
 #     customer_id  = Column(INTEGER(11), nullable= False)
 #     order_id  = Column(INTEGER(11), nullable= False)
 #     description  = Column(TEXT, nullable = False)
-#     amount = Column(DECIMAL(15,4), nullable= False)
+#     amount = Column(db.String(15), nullable= False)
 #     date_added  = Column(db.DateTime, nullable = False)
 
 

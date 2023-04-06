@@ -48,6 +48,7 @@ class Config(object):
     MAX_CONTENT_LENGTH = 1024 * 1024 # 1 MB
     UPLOAD_EXTENSIONS = ['.jpg', '.png', 'jpeg']
     UPLOAD_PATH = 'uploads/'
-    SELLERS_PRODUCT = 'kesandu/sellers/static/sellers/images/uploads/products/'
+    SELLERS_PRODUCT = 'kesandu/uploads/products/'
+    SELLER_PRODUCT_PATH = 'uploads/products/'
     
     

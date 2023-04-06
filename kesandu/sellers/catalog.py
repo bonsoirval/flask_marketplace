@@ -2,7 +2,7 @@ import pandas as pd
 from kesandu import db
 from flask_login import current_user
 from kesandu.sellers import bp
-from flask import render_template, request, current_app, abort, redirect, url_for
+from flask import render_template, request, current_app, abort, redirect, url_for, jsonify
 from flask_login import login_required
 from sqlalchemy import text, select, or_, and_, not_, join 
 from kesandu.frontend.models import Product, ProductDescription
@@ -10,9 +10,14 @@ from kesandu.sellers.forms import AddProductForm, TestFileUpload
 from werkzeug.utils import secure_filename
 import imghdr
 import os
-# from kesandu.sellers.models import Categories
+from datetime import datetime
 
-
+@bp.route('/sellerrs/catalog/get_manufacturer')
+def s_get_manufacturer():
+    return jsonify({
+        '1': 'okechukwu',
+        '2': 'njoku'
+    })
 def validate_image(stream):
     header = stream.read(512)
     stream.seek(0)
@@ -26,7 +31,7 @@ def upload_file(success_page="s_add_product"):
     uploaded_file.filename = os.path.splitext(uploaded_file.filename)[0] + "_seller_" \
         + str(current_user.id) + os.path.splitext(uploaded_file.filename)[1]
     
-    filename = secure_filename(uploaded_file.filename)
+    filename = secure_filename(uploaded_file.filename).split('/')[-1]
     if uploaded_file.filename != "":
         file_ext = os.path.splitext(uploaded_file.filename)[1]
         if file_ext not in current_app.config['UPLOAD_EXTENSIONS'] or file_ext != validate_image(uploaded_file.stream):
@@ -73,7 +78,8 @@ def edit_category(cat_id):
 @login_required
 def s_edit_product(product_id):
     return product_id
-
+    
+    
 @bp.route('/sellers/catalog/add_product', methods=['GET', 'POST'])
 # @login_required
 def s_add_product():
@@ -90,61 +96,84 @@ def s_add_product():
         # sort_order : {form.sort_order.data} just below status <br/> 
         # """ 
         # """ Create Product and ProductDescription objects"""
-        # product = Product()
-        # product_description = ProductDescription()
+        # product and product_description objects 
+
+        product = Product.query \
+            .filter_by(model = form.model.data, seller_id = current_user.id) \
+                .join(ProductDescription) \
+                    .where(Product.id, ProductDescription.product_id) \
+                        .first()
         
         
-        return f"Product Name : {form.product_name.data} <br/> \
-            Product Description : {form.product_description.data} <br/> \
-            Product Meta Tag : {form.meta_tag_title.data} <br/> \
-            Product meta tag description : {form.meta_tag_description.data} <br/> \
-            Product meta tag keywords : {form.meta_tag_keywords.data} <br/>\
-            Product tags : {form.product_tags.data} <br/>\
-            model : {form.model.data} <br/> \
-            sku : {form.sku.data} <br/>\
-            upc : {form.upc.data} <br/> \
-            ean : {form.ean.data} <br/> \
-            jan : {form.jan.data} <br/> \
-            isbn : {form.isbn.data} <br/>\
-            mpn : {form.mpn.data} <br/> \
-            location : {form.location.data} <br/> \
-            price : {form.price.data} <br/>\
-            tax_class : {form.tax_class.data} <br/> \
-            quantity : {form.quantity.data} <br/> \
-            min_quantity : {form.min_quantity.data} <br/>\
-            subtract_stock : {form.subtract_stock.data} <br/> \
-            stock_status_id : {form.stock_status_id.data} <br/> \
-            shipping : {form.shipping.data} <br/> \
-            date_available : {form.date_available.data} <br/> \
-            length : {form.length.data} <br/> \
-            width : {form.width.data} <br/> \
-            height : {form.height.data} <br/>  \
-            # length_class_id : {form.length_class_id.data} <br/> \
-            weight : {form.weight.data} <br/> \
-            weight_class_id : {form.weight_class_id.data} <br/>\
-            status : {form.status.data} <br/> \
-            sort_order : {form.sort_order.data} <br/>\
-            manufacturer : {form.manufacturer.data} <br/>  \
-            category : {form.category.data} <br/> \
-            filters : {form.filters.data} <br/> \
-            stores : {form.stores.data} <br/> \
-            downloads : {form.downloads.data} <br/> \
-            related : {form.related.data} <br/>\
-            image : {upload_file(success_page='sellerssuccess_.s_add_product')} <br/>"
-    
-    # if form.validate_on_submit():
-    #     return'Not valid product'
-    
-    # if request.method == 'POST' and form.validate():
-    #     return 'validated'
-        
+        # if product already exists, from same , do not upload it again
+        if product: # and prod_description:
+            return redirect(url_for('sellers.s_add_product')) # f'the product exists already {product}'
+        else:
+            """ 
+            Put sku, ean and other parameters into consideration."""
+            # Create database object
+            prod_params = {
+                'seller_id' : current_user.id,
+                'model' : form.model.data,
+                'sku' : form.sku.data,
+                'upc' : form.upc.data,
+                'ean' : form.ean.data,
+                'jan' : form.jan.data,
+                'isbn' : form.isbn.data,
+                'mpn' : form.mpn.data, 
+                'location' : form.location.data,
+                'price' : form.price.data,
+                'tax_class_id' : form.tax_class.data,
+                'quantity' : form.quantity.data,
+                'minimum' : form.minimum.data,
+                'subtract' : form.subtract.data,
+                'stock_status_id' : form.stock_status_id.data,
+                'shipping' : form.shipping.data,
+                'date_available' : form.date_available.data,
+                'length' : form.length.data,
+                'width' : form.width.data,
+                'height' : form.height.data,
+                # 'length_class_id' : form.length_class_id.data,
+                'weight' : form.weight.data,
+                'weight_class_id' : form.weight_class_id.data,
+                'status' : form.status.data,
+                'manufacturer_id' : form.manufacturer_id.data,
+                # 'category' : form.category.data,
+                # 'filters' : form.filters.data,
+                # 'stores' : form.stores.data,
+                # 'downloads' : form.downloads.data,
+                # 'related' : form.related.data,
+                'image' : upload_file(success_page='sellerssuccess_.s_add_product'),
+                'date_added' : datetime.utcnow(),
+                'date_modified' : datetime.utcnow()
+            }
+            product = Product(**prod_params)
+            db.session.add(product)
+            db.session.flush()
+            # db.session.refresh(product)
+           
+            
+            prod_desc_params = {
+                'language_id': 1,
+                'product_id' : product.id,
+                'name' : form.product_name.data, 
+                'description' : form.description.data,
+                'tag' : form.tags.data,
+                'meta_title' : form.meta_title.data,
+                'meta_description' : form.meta_description.data,
+                'meta_keyword' : form.meta_keywords.data
+            }
+           
+            product_description = ProductDescription(**prod_desc_params)
+            db.session.add(product_description)
+            db.session.commit()            
+            return redirect(url_for('sellers.s_add_product'))
+         
     data = {
         'title': 'Add Product',
         'form': form
     }
-    
-    
-    # return render_template('dummy/dummy.html', data=data, form=form)
+
     return render_template('sellers/catalog/add_product.html', data=data)
 
 @bp.route('/sellers/catalog/copy_product', methods=['GET', 'POST'])

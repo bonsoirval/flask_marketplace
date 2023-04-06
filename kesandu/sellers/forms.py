@@ -4,7 +4,6 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from kesandu.sellers.models import Seller
 
-
 class TestFileUpload(FlaskForm):
     file = FileField('file')
     submit = SubmitField('submit')
@@ -17,11 +16,11 @@ class FakeLoginForm(FlaskForm):
     
 class AddProductForm(FlaskForm):
     product_name = StringField('Product Name', validators=[DataRequired()])
-    product_description = TextField('Product Description')
-    meta_tag_title = StringField('Meta Tag Title', validators=[DataRequired()])
-    meta_tag_description = TextField('Meta Tag Description')
-    meta_tag_keywords = TextField('Meta Tag Keywords')
-    product_tags = StringField('Product Tags')
+    description = TextField('Product Description')
+    meta_title = StringField('Meta Tag Title', validators=[DataRequired()])
+    meta_description = TextField('Meta Tag Description')
+    meta_keywords = TextField('Meta Tag Keywords')
+    tags = StringField('Product Tags')
     model = StringField('Model', validators = [DataRequired()])
     sku = StringField('SKU')
     upc = StringField('UPC')
@@ -33,10 +32,10 @@ class AddProductForm(FlaskForm):
     price = StringField('Price')
     tax_class = SelectField('Tax Class', choices=[('0','Make Select'), ('9', 'Taxable Goods'), ('10', 'Downloadable Products')])
     quantity = StringField('Quantity')
-    min_quantity = StringField('Minimum Quantity') # , min_entries=1)
-    subtract_stock = SelectField('Subtract Stock', choices=[('1', 'Yes'), ('0', 'No')])
+    minimum = StringField('Minimum Quantity') # , min_entries=1)
+    subtract = SelectField('Subtract Stock', choices=[(1, 'Yes'), (0, 'No')])
     stock_status_id = SelectField('Out Of Stock Status', choices=[('6', '2-3 Days'), ('7', 'In Stock'), ('5', 'Out Of Stock'), ('8','Pre-Order')])
-    shipping = RadioField('Requires Shipping', choices=[('1', 'Yes'), ('0', 'No')], default=1, coerce=int, validators=[DataRequired()])
+    shipping = RadioField('Requires Shipping', choices=[(1, 'Yes'), (0, 'No')], default=1, coerce=int, validators=[DataRequired()])
     date_available = DateField('Available Data', format='%Y-%m-%d' )
     length = StringField('Length')
     width = StringField('Width')
@@ -46,7 +45,8 @@ class AddProductForm(FlaskForm):
     weight_class_id = SelectField('Weight Class',choices=[('1', 'Kilograms'), ('2', 'Gram'), ('5', 'Pound'), ('6', 'Ounce')])
     status = SelectField('Status',choices=[('1', 'Enabled'), ('2', 'Disabled')])
     sort_order = StringField('Sort Order')
-    manufacturer = StringField('Manufacturer [Ajax filled]')
+    # manufacturer = StringField('Manufacturer [Ajax filled]')
+    manufacturer = SelectField("Manufacturer",choices=[(0, ' -- Select Manufacturer -- ')])
     manufacturer_id = StringField('Manufacturer_id')
     category = StringField('Category [Ajax filled]')
     filters = StringField('Filters (deactivated)')

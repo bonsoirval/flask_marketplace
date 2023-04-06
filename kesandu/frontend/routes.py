@@ -1,5 +1,6 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, session,logging, jsonify, current_app
+from flask import render_template, flash, redirect, url_for, request, session,logging, jsonify,\
+    current_app as app, send_from_directory, Response
 from flask_login import current_user, login_required
 from kesandu import db
 from kesandu.frontend.forms import OrderForm 
@@ -9,7 +10,8 @@ from sqlalchemy.sql.expression import func # for random selection of items
 from sqlalchemy import text, select, or_, and_, not_, join
 from datetime import datetime
 import pandas as pd 
-
+import os
+from config import Config
 
 session = db.session
 
@@ -20,6 +22,10 @@ session = db.session
 #         db.session.commit()
     # g.locale = str(get_locale())
 
+@bp.route('/load_image/<image>')
+def fe_load_image(image):
+    return send_from_directory(app.config['SELLER_PRODUCT_PATH'], image)
+    
 @bp.route('/ajax')
 def fe_ajax():
     a = request.args.get('a', 0, type=int)
@@ -29,7 +35,6 @@ def fe_ajax():
 # @bp.route('/ajax_index')
 # def ajax_index():
 #     return render_template('dummy/ajax_index.html')
-
 
 @bp.route("/my_cart", methods = ["GET", "POST"])
 def fe_my_cart():
@@ -56,7 +61,6 @@ def fe_my_cart():
     }
     return render_template('frontend/cart.html', data = data) 
 
-
 @bp.route('/add_to_cart/', methods=['GET', 'POST'])
 def fe_cart():
     seller_id = request.args.get('seller_id', 0, type=int)
@@ -70,12 +74,10 @@ def fe_cart():
     
     return jsonify(result= True) # f"{result}") # : {product_id} : {quantity} : {user_id}'  )
 
-
 # method to handle all insert operations
 def insert(table, columns, values):
     result = db.engine.execute( "INSERT INTO {table} ( {columns} ) VALUES ( {values} )".format(table,columns, values))
     return result
-
 
 @bp.route('/category/<category>', methods=['GET'])
 def fe_category(category):
@@ -90,7 +92,6 @@ def fe_category(category):
     
     title = f"Kesandu {category} products"
     return render_template('frontend/category.html', x=x,title=title, products=products, category=category)
-
 
 @bp.route('/product/<int:product_id>', methods=['GET', 'POST'])
 def fe_product(product_id):
@@ -126,7 +127,6 @@ def fe_product(product_id):
     categories_nav = [{'category_id': i[0:][0], 'parent_name':i[0:][4] } for i in cat_df[cat_df['parent_id'] == 0].values]
     
     return render_template('frontend/view_product.html', data = data, categories_nav = categories_nav) # description =  product.description, keywords = product.meta_title, title = product.meta_title, product=product, x= ' x ')
-
     
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
@@ -145,8 +145,8 @@ def fe_index():
         'products' : product,
         'title' : "Kesandu Organic Shop"
     }
+    # return render_template('dummy/mock.html', data = data)
     return render_template('frontend/home.html', data = data) #products=product, title = title, description = "description", keywords = "keywords")
-     
      
 # Run raw sql from flask_sqlalchemy
 @bp.route('/test_sql')
@@ -170,17 +170,14 @@ def run_sql():
         '''
     )
     
-
 @bp.app_template_filter()
 def cageory_nav(value, locaton = 'left'):
     print("Hello")
     return 'left_cageory_nav'
 
-
 @bp.app_template_filter()
 def add_total(item_1, item_2):
     return item_1 + item_2
-
 
 @bp.app_template_filter()
 def nav_bar(name):
@@ -197,7 +194,6 @@ def nav_bar(name):
     <br/>
     """
     return f"Hello {name}"
-
 
 # get categories
 @bp.route('/cats')
@@ -220,8 +216,7 @@ def fe_cats():
     return render_template("frontend/mock.html", stmt = categories, \
         parents = parents, children = children, cat_df = cat_df,\
             df = dict(cat_df))
-    
-    
+       
 @bp.route('/search')    
 def fe_search():
     q = request.args.get('q', 'nothing')

@@ -22,5 +22,18 @@ def create_demo_user(name):
     db.session.commit()
     print("Default user created successfully")
     print(f"Username: {username} \nPassword: {password}")
+
+@bp.cli.command('test_code')
+@click.argument('value')
+def test_code(value = 'nothing really'):
+    import os
+    from flask import current_app as app, send_from_directory
+    basedir = os.path.abspath(os.path.dirname(app.config['SELLERS_PRODUCT']))
+    product = 'catalog/demo/htc_touch_hd_1.jpg'.split('/')[-1]
+    # image = basedir + "/" + product
+    
+    print(f"Basedir : {basedir}")
+    print(f"Product : {product}")
+    # print(f"Image : {image}")
         
 from kesandu.frontend import routes

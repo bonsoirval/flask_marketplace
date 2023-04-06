@@ -51,11 +51,9 @@
                 {% for prod in data['products'] %}
                     <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="card mb-4">
-                        <!--center><h2>{{prod.name}}</h2></center-->
-                        <!-- a href=" / { { product.category } } ? v iew = { { product.id } } " -->
-                        <a href="{{url_for('frontend.fe_product', product_id=prod.id)}}">
+                        <a href = "{{url_for('frontend.fe_product', product_id=prod.id)}}">
                             <div class="card-img-top id_{{prod.id}}"
-                                 style="background: url('frontend/static/frontend/{{prod.image}}'); background-repeat:no-repeat; background-size: cover; height:200px;width:100% "></div>
+                                 style="background: url({{url_for('frontend.fe_load_image', image=prod.image)}}); background-repeat:no-repeat; background-size: cover; height:200px;width:100% "></div>
                         </a>
                         <div class="card-body">
                             <h5><a class="card-title" href="javascript:void();">{{ prod.name}}</a></h5>

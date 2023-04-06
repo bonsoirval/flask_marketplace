@@ -500,7 +500,7 @@ INSERT INTO "category" ("id","image","parent_id","top","column","sort_order","st
  (57,'',0,1,1,3,1,'2011-04-26 08:53:16','2011-05-30 12:15:05'),
  (58,'',52,0,0,0,1,'2011-05-08 13:44:16','2011-05-08 13:44:16');
 INSERT INTO "language" ("id","name","code","locale","image","directory","sort_order","status") VALUES (1,'English','en-gb','en-US,en_US.UTF-8,en_US,en-gb,english','gb.png','english',1,1);
-INSERT INTO "sellers" ("id","firstName","lastName","email","mobile","address","password_hash","type","confirmCode") VALUES (1,'njoku','okechukwu','bonsoirval@gmail.com','07038616871','no address','sfsd','','');
+INSERT INTO "sellers" ("id","username","firstName","lastName","email","mobile","address","password_hash","type","confirmCode") VALUES (1,'bonsoirval@gmail.com','njoku','okechukwu','bonsoirval@gmail.com','07038616871','no address','sfsd','','');
 INSERT INTO "users" ("id","name","email","username","password_hash","mobile","reg_time","online","activation") VALUES (1,'bonsoirval@gmail.com','bonsoirval@gmail.com','bonsoirval@gmail.com','pbkdf2:sha256:260000$n0HDECiN7to4WtKV$16d42ff8b4cba6e18cc09995ef38ef72282c026ba8f4fe92e082d091c8cb904f','1234567890123','2023-03-03 22:46:35.469299','0','no'),
  (2,'bonsoirval@yaho.com','bonsoirval@yaho.com','bonsoirval@yaho.com','pbkdf2:sha256:260000$V2719Oi5tIKBE6aL$52914d4738dccff77186c824e577f0b9ea79f5a64a42d2a284e38b1b9c3d9a7c','1234567890123','2023-03-05 06:40:53.617664','0','no');
 INSERT INTO "cart" ("id","api_id","customer_id","session_id","product_id","seller_id","recurring_id","option","quantity","date_added") VALUES (1,NULL,2,NULL,47,1,NULL,NULL,700,'2023-03-04 06:49:41.169746'),

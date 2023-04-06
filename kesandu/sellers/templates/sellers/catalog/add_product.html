@@ -224,32 +224,32 @@
                   <div class="form-group required">
                     <label class="col-sm-2 control-label" for="input-meta-title1">Meta Tag Title</label>
                     <div class="col-sm-10">
-                      {{data['form'].meta_tag_title(placeholder="Meta Tag Title", id='input-meta-title1', class='form-control')}}
+                      {{data['form'].meta_title(placeholder="Meta Tag Title", id='input-meta-title1', class='form-control')}}
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-description1">
-                      {{data['form'].meta_tag_description.label}}
+                      {{data['form'].meta_description.label}}
                     </label>
                     <div class="col-sm-10">
-                      {{ data['form'].meta_tag_description(rows='5', placeholder='Meta Tag Description', id = 'input-meta-description', class = 'form-control')}}                  </div>
+                      {{ data['form'].meta_description(rows='5', placeholder='Meta Tag Description', id = 'input-meta-description', class = 'form-control')}}                  </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-keyword1">
-                      {{data['form'].meta_tag_keywords.label}}
+                      {{data['form'].meta_keywords.label}}
                     </label>
                     <div class="col-sm-10">
-                      {{data['form'].meta_tag_keywords(rows='5', placeholder='Meta Tag Keywords', id = 'input-meta-keywords', class = 'form-control')}}
+                      {{data['form'].meta_keywords(rows='5', placeholder='Meta Tag Keywords', id = 'input-meta-keywords', class = 'form-control')}}
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-tag1">
                       <span data-toggle="tooltip" title="Comma separated">
-                        {{ data['form'].product_tags.label}}
+                        {{ data['form'].tags.label}}
                       </span>
                     </label>
                     <div class="col-sm-10">
-                      {{ data['form'].product_tags(placeholder='Product Tags', id ='input-tag1', class='form-control') }}
+                      {{ data['form'].tags(placeholder='Product Tags', id ='input-tag1', class='form-control') }}
                     </div>
                   </div>
                 </div>
@@ -335,15 +335,15 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-minimum"><span data-toggle="tooltip" title="Force a minimum ordered amount">{{data['form'].min_quantity.label}}</span></label>
+                <label class="col-sm-2 control-label" for="input-minimum"><span data-toggle="tooltip" title="Force a minimum ordered amount">{{data['form'].minimum.label}}</span></label>
                 <div class="col-sm-10">
-                  {{data['form'].min_quantity(placeholder='Minimum Quantity', id='input-minimum', class='form-control', type='number')}}
+                  {{data['form'].minimum(placeholder='Minimum Quantity', id='input-minimum', class='form-control', type='number')}}
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-stock-status"><span data-toggle="tooltip" title="Status shown when a product is out of stock">{{ data['form'].subtract_stock.label}}</span></label>
+                <label class="col-sm-2 control-label" for="input-stock-status"><span data-toggle="tooltip" title="Status shown when a product is out of stock">{{ data['form'].subtract.label}}</span></label>
                 <div class="col-sm-10">
-                  {{data['form'].subtract_stock(id='input-submit-stock', class='form-control')}}
+                  {{data['form'].subtract(id='input-submit-stock', class='form-control')}}
                 </div>
               </div>
               <div class="form-group">
@@ -419,12 +419,12 @@
             </div>
             <div class="tab-pane" id="tab-links">
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="(Autocomplete)">{{data['form'].manufacturer.label}}</span></label>
+                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="(Autocomplete)">{{data['form'].manufacturer_id.label}}</span></label>
                 <div class="col-sm-10">
-                  {{data['form'].manufacturer(placeholder='Manufacturer', id='input-manufacturer', class="form-control")}}
-                  {{data['form'].manufacturer_id(type='hidden', value=0)}}
-                  <!--input type="text" name="manufacturer" value="" placeholder="Manufacturer" id="input-manufacturer" class="form-control" />
-                  <input type="hidden" name="manufacturer_id" value="0" /-->
+                  {{data['form'].manufacturer(placeholder='Manufacturer', id='manufacturer', class="form-control")}}
+                  {#{data['form'].manufacturer_id()}#}
+                  <!--input type="text" name="manufacturer" value="" placeholder="Manufacturer" id="input-manufacturer" class="form-control" /-->
+                  <!-- input name="manufacturer_id" value="0" /-->
                 </div>
               </div>
               <div class="form-group">
@@ -782,7 +782,21 @@
   <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
   <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
   <script type="text/javascript"><!--
+  $SCRIPT_ROOT = {{ request.script_root|tojson}};
 // Manufacturer
+/* My code */
+$(function(){
+  $('select#manufacturer').bind('click', function(){
+    alert("Just there")
+  
+    $.getJSON($SCRIPT_ROOT + {{url_for('sellers.s_get_manufacturer')}},{
+      // pass no value
+    },function(data){
+      $('#manufacturer').replace(data)
+    })
+   
+  })
+})
 $('input[name=\'manufacturer\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({

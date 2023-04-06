@@ -13,6 +13,7 @@ from flask_babel import Babel, lazy_gettext as _l
 from config import Config
 # from flask_authorize import Authorize
 from flask_session import Session
+# from kesandu.helpers import load_image
 
 
 db = SQLAlchemy()
@@ -34,6 +35,9 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
     # app.jinja_env.undefined = StrictUndefined
         
+    # push application context
+    # the plugins defined will have access to current_app
+    # with app.app_context():
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
@@ -63,6 +67,11 @@ def create_app(config_class=Config):
     # Admin
     from kesandu.admin import bp as admin_bp
     app.register_blueprint(admin_bp, url_prefi='/admin')
+    
+    # add functions to template
+    # app.jinja_env.globals.update(
+    #     load_image = load_image,
+    # )
     
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:

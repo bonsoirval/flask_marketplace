@@ -1,17 +1,7 @@
+<html>
+<head></head>
+<body>
 
-Hello welcome to mock  / test page<br/>
-<br/>
-<div>
-{{result}}
-</div>
-{# /////////// Navigations //////////// #}
-{% for i in parents %}
-    Parent : {{i}}<br/>
-    {% for j in children %}
-        {% if i.category_id == j.parent_id%}
-            Child : {{j | lower }}<br/>
-        {% endif %}
-    {% endfor %}
-    <br/>
-{% endfor %}
-<br/>
+    <img src={{url_for('frontend.show', image='test.png')}} />
+</body>
+</html>

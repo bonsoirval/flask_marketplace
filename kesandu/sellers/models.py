@@ -12,6 +12,8 @@ from sqlalchemy.dialects.mysql import TINYINT, DATE,DECIMAL, SMALLINT, FLOAT, TE
 from kesandu.models import UserGroup, UserRole
 
 
+
+
 class Seller(db.Model, UserMixin):
     __tablename__ = 'sellers'
     
@@ -61,7 +63,6 @@ class Seller(db.Model, UserMixin):
             return
         return Seller.query.get(int(id))
        
-    
 
 @login.user_loader
 def load_user(id):
