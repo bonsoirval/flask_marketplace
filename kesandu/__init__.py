@@ -13,7 +13,7 @@ from flask_babel import Babel, lazy_gettext as _l
 from config import Config
 # from flask_authorize import Authorize
 from flask_session import Session
-# from kesandu.helpers import load_image
+from kesandu.helpers import load_image
 
 
 db = SQLAlchemy()
@@ -69,9 +69,9 @@ def create_app(config_class=Config):
     app.register_blueprint(admin_bp, url_prefi='/admin')
     
     # add functions to template
-    # app.jinja_env.globals.update(
-    #     load_image = load_image,
-    # )
+    app.jinja_env.globals.update(
+        load_image = load_image,
+    )
     
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:

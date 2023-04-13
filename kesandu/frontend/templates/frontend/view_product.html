@@ -19,8 +19,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card mt-4">
-                        <img class="card-img-top img-fluid"
-                             src="../../frontend/static/frontend/{{data['product'].image}}" alt="">
+                        <img class="card-img-top img-fluid" src={{url_for('frontend.fe_load_image', image=data['product'].image)}} alt={{data['product'].image}} />
                     </div>
                 </div>
                 <!-- /.card -->
