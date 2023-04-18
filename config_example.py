@@ -1,0 +1,54 @@
+import os
+from dotenv import load_dotenv
+
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
+
+# # Read secret file
+# variables = None
+# with open('.secrets', 'r') as f:
+#    variables = f.read()
+
+  
+
+class Config(object):
+    # DB_NAME = variables.split('\n')[0].split('=')[1]
+    # DB_USERNAME = variables.split('\n')[1].split('=')[1]
+    # DB_PASSWORD = variables.split('\n')[2].split('=')[1]
+    DB_USERNAME='db username'
+    DB_NAME = 'kesandu_db'
+    DB_PASSWORD ='replace with db password'
+
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'replace with your secret key'
+    
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'kesandu_db.db')
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':''@localhost/'+ DB_NAME 
+    # mysql://username:password@host:port/database_name
+    
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':''@localhost/'+ DB_NAME
+    # # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_USERNAME + ':' + DB_PASSWORD + '@localhost:3306/'+ DB_NAME
+    
+        
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    ADMINS = ['replace with admin email']
+    LANGUAGES = ['en', 'es']
+    MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
+    POSTS_PER_PAGE = 25
+    APP_NAME = 'Kesandu'
+    EXPLAIN_TEMPLATE_LOADING = True
+    
+    # File request / upload size settings
+    MAX_CONTENT_LENGTH = 1024 * 1024 # 1 MB
+    UPLOAD_EXTENSIONS = ['.jpg', '.png', 'jpeg']
+    UPLOAD_PATH = 'uploads/'
+    SELLERS_PRODUCT = 'kesandu/uploads/products/'
+    SELLER_PRODUCT_PATH = 'uploads/products/'
+    
+    

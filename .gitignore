@@ -41,3 +41,13 @@ nosetests.xml
 venv
 app.db
 microblog.log*
+.secrets
+.flaskenv
+kesandu_db.db.sql
+kesandu_db.db
+kesandu_db_backup.db
+config.py
+migrations/
+migrations_backup/
+database_files/
+dev_resources/
