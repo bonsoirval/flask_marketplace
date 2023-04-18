@@ -22,6 +22,13 @@ session = db.session
 #         db.session.commit()
     # g.locale = str(get_locale())
 
+@bp.route('/checkout')
+def fe_checkout():
+    data = {
+        'title' : "Checkout Page"
+    }
+    return render_template('frontend/checkout.html', data=data)
+
 @bp.route('/load_image/<image>')
 def fe_load_image(image):
     return send_from_directory(app.config['SELLER_PRODUCT_PATH'], image)

@@ -95,7 +95,7 @@ $('#button-coupon').on('click', function() {
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 		}
 	});
 });
@@ -477,7 +477,7 @@ $('#button-quote').on('click', function() {
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 		}
 	});
 });
@@ -508,7 +508,7 @@ $(document).delegate('#button-shipping', 'click', function() {
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 		}
 	});
 });
@@ -550,7 +550,7 @@ $('select[name=\'country_id\']').on('change', function() {
 			$('select[name=\'zone_id\']').html(html);
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 		}
 	});
 });
@@ -600,7 +600,7 @@ $('#button-voucher').on('click', function() {
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 		}
 	});
 });
@@ -630,7 +630,7 @@ $('#button-voucher').on('click', function() {
       </div>
       <div class="buttons clearfix">
         <div class="pull-left"><a href="{{url_for('frontend.fe_index')}}" class="btn btn-default">Continue Shopping</a></div>
-        <div class="pull-right"><a href="http://localhost/market/index.php?route=checkout/checkout" class="btn btn-primary">Checkout</a></div>
+        <div class="pull-right"><a href="{{url_for('frontend.fe_checkout')}}" class="btn btn-primary">Checkout</a></div>
       </div>
       </div>
     </div>
